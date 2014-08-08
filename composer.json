@@ -1,0 +1,30 @@
+{
+    "name": "uthando-cms/uthando-mail",
+    "description": "Mail module for Uthando CMS",
+    "license": "BSD-3-Clause",
+    "keywords": [ "framework", "zf2","cms", "uthando", "admin"],
+    "homepage": "http://shaunfreeman.name/",
+    
+    "authors": [
+        {
+            "name": "Shaun Freeman",
+            "email": "shaun@shaunfreeman.co.uk",
+            "homepage": "https://github.com/shaunfreeman",
+            "role": "Developer"
+        }
+    ],
+    
+    "require" : {
+	    "php" : ">=5.4",
+	    "zendframework/zendframework" : "2.*"
+    },
+    
+    "autoload": {
+        "psr-0": {
+            "UthandoMail": "src/"
+        },
+        "classmap": [
+            "./Module.php"
+        ]
+    }
+}

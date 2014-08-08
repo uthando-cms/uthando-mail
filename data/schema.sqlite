@@ -1,0 +1,9 @@
+CREATE TABLE mailQueue (
+  mailQueueId integer PRIMARY KEY AUTOINCREMENT NOT NULL,
+  recipient text(128),
+  sender text(128),
+  subject varchar(128),
+  bodyText text,
+  bodyHtml text,
+  dateCreated datetime(128)
+);
