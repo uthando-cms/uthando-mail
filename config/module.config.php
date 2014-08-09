@@ -1,5 +1,19 @@
 <?php
 return array(
+    'userAcl' => [
+        'userRoles' => [
+            'admin'        => [
+                'privileges'    => [
+                    'allow' => [
+                        ['controller' => 'UthandoMail\Controller\MailQueue', 'action' => 'all'],
+                    ],
+                ],
+            ],
+        ],
+        'userResources' => [
+            'UthandoMail\Controller\MailQueue',
+        ],
+    ],
     'controllers' => array(
         'invokables' => array(
             'UthandoMail\Controller\MailQueue' => 'UthandoMail\Controller\MailQueueController',
@@ -9,8 +23,8 @@ return array(
     'router' => array(
         'routes' => array(
             'admin' => array(
-                'child-routes' => array(
-                    'uthando-mail-queue' => array(
+                'child_routes' => array(
+                    'mail-queue' => array(
                         'type'    => 'Segment',
                         'options' => array(
                             // Change this to something specific to your module
@@ -26,21 +40,33 @@ return array(
                         ),
                         'may_terminate' => true,
                         'child_routes' => array(
-                            // This route is a sane default when developing a module;
-                            // as you solidify the routes for your module, however,
-                            // you may want to remove it and replace it with more
-                            // specific routes.
-                            'default' => array(
+                            'edit' => array(
                                 'type'    => 'Segment',
                                 'options' => array(
-                                    'route'    => '/[:controller[/:action]]',
+                                    'route'    => '/[:action[/id/[:id]]]',
                                     'constraints' => array(
-                                        'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                        'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                        'action'    => '[a-zA-Z][a-zA-Z0-9_-]*',
+        								'id'		=> '\d+'
                                     ),
                                     'defaults' => array(
+                                        'action'        => 'edit',
+                                        'force-ssl'     => 'ssl'
                                     ),
                                 ),
+                            ),
+                            'page' => array(
+                            	'type'    => 'Segment',
+                            	'options' => array(
+                            		'route'    => '/page/[:page]',
+                            		'constraints' => array(
+                            			'page' => '\d+'
+                            		),
+                            		'defaults' => array(
+                            			'action'        => 'list',
+        								'page'          => 1,
+        							    'force-ssl'     => 'ssl'
+                            		),
+                            	),
                             ),
                         ),
                     ),
@@ -64,6 +90,20 @@ return array(
 			),
 		),
     ),
+    'navigation' => [
+        'admin' => [
+            'modules' => [
+                'pages' => [
+                    'mail-queue' => [
+                        'label'     => 'Mail Queue',
+                        'action'    => 'index',
+                        'route'     => 'admin/mail-queue',
+                        'resource'  => 'menu:admin'
+                    ],
+                ],
+            ],
+        ],
+    ],
     'view_manager' => array(
         'template_path_stack' => array(
             'UthandoMailQueue' => __DIR__ . '/../view',

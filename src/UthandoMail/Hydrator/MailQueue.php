@@ -2,9 +2,17 @@
 namespace UthandoMail\Hydrator;
 
 use UthandoCommon\Hydrator\AbstractHydrator;
+use UthandoCommon\Hydrator\Strategy\DateTime as DateTimeStrategy;
 
 class MailQueue extends AbstractHydrator
 {
+    public Function __construct()
+    {
+    	parent::__construct();
+    
+    	$this->addStrategy('dateCreated', new DateTimeStrategy());
+    }
+    
     /**
      * @param \UthandoMail\Model\MailQueue $object
      * @return array

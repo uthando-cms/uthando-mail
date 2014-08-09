@@ -1,0 +1,25 @@
+<?=$this->partial('uthando-admin/partial/search', [
+	'name'			=> 'mailQueue',
+	'searchInputs'	=> [
+		'Recipient'	=> 'reciptient',
+	],
+]);?>
+	    	
+<div id="table-mailQueue">
+	<?=$this->partial('uthando-mail/mail-queue/list', [
+	    'models' => $this->models
+	]); ?>
+</div>
+
+<?php $this->inlineScript()->captureStart(); ?>
+$(document).ready(function(){
+	$('#table-productImage').dataGrid({
+	    url : 'mail-queue/list',
+	    query: { sort : 'mailQueueId' },
+	    searchForm : $('#search-mailQueue'),
+	    paging : 'links',
+	    columnSort: true,
+	    //rowClick : admin.product.rowClick
+	});
+});
+<?php $this->inlineScript()->captureEnd(); ?> 

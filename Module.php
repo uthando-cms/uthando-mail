@@ -6,12 +6,22 @@ use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\Console\Adapter\AdapterInterface as Console;
 use Zend\ModuleManager\Feature\ConsoleUsageProviderInterface;
 use Zend\ModuleManager\Feature\ConsoleBannerProviderInterface;
+use Zend\Mvc\MvcEvent;
+use UthandoMail\Event\MailListener;
 
 class Module implements 
 AutoloaderProviderInterface,
 ConsoleUsageProviderInterface,
 ConsoleBannerProviderInterface
 {
+    public function onBootstrap(MvcEvent $event)
+    {
+        $app = $event->getApplication();
+        $eventManager = $app->getEventManager();
+        
+        $eventManager->attachAggregate(new MailListener());
+    }
+    
     public function getAutoloaderConfig()
     {
         return [
@@ -37,6 +47,10 @@ ConsoleBannerProviderInterface
             	'UthandoMail\Model\MailQueue' => 'UthandoMail\Model\MailQueue',
             	'UthandoMail\Service\MailQueue' => 'UthandoMail\Service\MailQueue',
             ],
+            'factories' => [
+                'UthandoMail\Service\Mail' => 'UthandoMail\Service\Factory\MailFactory',
+                'UthandoMail\Options\MailQueueOptions' => 'UthandoMail\Service\Factory\MailQueueOptionsFactory',
+    	   ],
     	];
     }
     
@@ -50,7 +64,7 @@ ConsoleBannerProviderInterface
     public function getConsoleBanner(Console $console){
         return
         "==------------------------------------------------------==\n" .
-        "        Welcome to Mail ZF2 Console-enabled app           \n" .
+        "     Welcome to Uthando Mail ZF2 Console-enabled app      \n" .
         "==------------------------------------------------------==\n" .
         "Version 1.0\n";
     }

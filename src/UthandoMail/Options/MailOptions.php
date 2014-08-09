@@ -5,26 +5,8 @@ use Zend\Stdlib\AbstractOptions;
 
 class MailOptions extends AbstractOptions
 {
-    protected $mailMessageClass;
     protected $mailTransport;
     protected $addressList;
-    
-	/**
-	 * @return the $mailMessageClass
-	 */
-	public function getMailMessageClass()
-	{
-		return $this->mailMessageClass;
-	}
-
-	/**
-	 * @param field_type $mailMessageClass
-	 */
-	public function setMailMessageClass($mailMessageClass)
-	{
-		$this->mailMessageClass = $mailMessageClass;
-		return $this;
-	}
 
 	/**
 	 * @return the $mailTransport
@@ -59,5 +41,4 @@ class MailOptions extends AbstractOptions
 		$this->addressList = $addressList;
 		return $this;
 	}
-
 }
