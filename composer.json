@@ -2,7 +2,7 @@
     "name": "uthando-cms/uthando-mail",
     "description": "Mail module for Uthando CMS",
     "license": "BSD-3-Clause",
-    "keywords": [ "framework", "zf2","cms", "uthando", "admin"],
+    "keywords": [ "framework", "zf2","cms", "uthando", "mail"],
     "homepage": "http://shaunfreeman.name/",
     
     "authors": [
@@ -16,7 +16,8 @@
     
     "require" : {
 	    "php" : ">=5.4",
-	    "zendframework/zendframework" : "2.*"
+	    "zendframework/zendframework" : "2.*",
+	    "uthando-cms/uthando-common" : "dev-master",
     },
     
     "autoload": {
