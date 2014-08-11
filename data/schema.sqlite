@@ -3,7 +3,8 @@ CREATE TABLE mailQueue (
   recipient text(128),
   sender text(128),
   subject varchar(128),
-  bodyText text,
-  bodyHtml text,
+  body text,
+  isHtml char,
+  priority integer(128),
   dateCreated datetime(128)
 );

@@ -24,7 +24,19 @@ class MailQueue extends AbstractService
         
         /* @var $row \UthandoMail\Model\MailQueue */
         foreach ($emailsToSend as $row) {
-            $sendMail->send($row->getArrayCopy());
+            
+            if ($row->getLayout()) {
+                $sendMail->setLayout($row->getLayout());
+            }
+            
+            $message = $sendMail->compose($row->getBody());
+            
+            $message->addTo($row->getRecipient())
+                ->addFrom($row->getSender())
+                ->setSubject($row->getSubject());
+            
+            $sendMail->send($message, $row->getTransport());
+            
             // delete the mail we just sent.
             $this->delete($row->getMailQueueId());
             $numberSent++;

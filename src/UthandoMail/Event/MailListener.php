@@ -25,11 +25,59 @@ class MailListener implements ListenerAggregateInterface
     
     public function sendMail(Event $e)
     {
+        $data = $e->getParams();
+        $sl = $e->getTarget()->getServiceLocator();
+        
+        /* @var $sendMail \UthandoMail\Service\Mail */
+        $sendMail = $sl->get('UthandoMail\Service\Mail');
+        
+        if (isset($data['layout'])) {
+            $sendMail->setLayout($data['layout']);
+            
+            if (isset($data['layout_params'])) {
+                $sendMail->getLayout()->setVariables($data['layout_params']);
+            }
+        } 
+        
+        if (is_array($data['recipient'])) {
+            $to = $sendMail->createAddress($data['recipient']['address'], $data['recipient']['name']);
+        } else {
+            $to = $data['recipient'];
+        }
+        
+        $subject = $data['subject'];
+        $transport = $data['transport'];
+        $body = $data['body'];
+        
+        $sender = (isset($data['sender'])) ? $data['sender'] : $sendMail->getOption('AddressList')[$transport];
+        
+        if (is_array($sender)) {
+            $from = $sendMail->createAddress($sender['address'], $sender['name']);
+        } else {
+            $from = $sender;
+        }
+        
+        $message = $sendMail->compose($body)
+            ->setTo($to)
+            ->setFrom($from)
+            ->setSubject($subject);
+        
+        $sendMail->send($message, $transport);
         
     }
     
     public function queueMail(Event $e)
     {
+        $sl = $e->getTarget()->getServiceLocator();
+        $data = $e->getParams();
         
+        /* @var $mailQueue \UthandoMail\Service\MailQueue */
+        $mailQueue = $sl->get('UthandoMail\Service\MailQueue');
+        $hydrator = $sl->get('UthandoMail\Hydrator\MailQueue');
+        $model = $sl->get('UthandoMail\Model\MailQueue');
+        
+        $model = $hydrator->hydrate($data, $model);
+        
+        $mailQueue->save($model);
     }
 }

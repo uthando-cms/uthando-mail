@@ -3,8 +3,10 @@ namespace UthandoMail\Model;
 
 use UthandoCommon\Model\Model;
 use UthandoCommon\Model\DateCreatedTrait;
+use Zend\Mail\Address;
+use UthandoCommon\Model\ModelInterface;
 
-class MailQueue
+class MailQueue implements ModelInterface
 {
     use Model;
     use DateCreatedTrait;
@@ -13,11 +15,13 @@ class MailQueue
     protected $recipient;
     protected $sender;
     protected $subject;
-    protected $bodyText;
-    protected $bodyHtml;
+    protected $body;
+    protected $layout;
+    protected $transport = 'default';
+    protected $priority = 0;
     
 	/**
-	 * @return the $mailQueueId
+	 * @return int $mailQueueId
 	 */
 	public function getMailQueueId()
 	{
@@ -25,7 +29,7 @@ class MailQueue
 	}
 
 	/**
-	 * @param field_type $mailQueueId
+	 * @param int $mailQueueId
 	 */
 	public function setMailQueueId($mailQueueId)
 	{
@@ -34,7 +38,7 @@ class MailQueue
 	}
 
 	/**
-	 * @return the $recipient
+	 * @return string $recipient
 	 */
 	public function getRecipient()
 	{
@@ -42,16 +46,20 @@ class MailQueue
 	}
 
 	/**
-	 * @param field_type $recipient
+	 * @param string|array|Address $recipient
 	 */
 	public function setRecipient($recipient)
 	{
+	    if (is_array($recipient)) {
+	    	$recipient = new Address($recipient['address'], $recipient['name']);
+	    }
+	    
 		$this->recipient = $recipient;
 		return $this;
 	}
 
 	/**
-	 * @return the $sender
+	 * @return string $sender
 	 */
 	public function getSender()
 	{
@@ -59,16 +67,20 @@ class MailQueue
 	}
 
 	/**
-	 * @param field_type $sender
+	 * @param string|array|Address $sender
 	 */
 	public function setSender($sender)
 	{
+	    if (is_array($sender)) {
+	        $sender = new Address($sender['address'], $sender['name']);
+	    }
+	    
 		$this->sender = $sender;
 		return $this;
 	}
 
 	/**
-	 * @return the $subject
+	 * @return string $subject
 	 */
 	public function getSubject()
 	{
@@ -76,7 +88,7 @@ class MailQueue
 	}
 
 	/**
-	 * @param field_type $subject
+	 * @param string $subject
 	 */
 	public function setSubject($subject)
 	{
@@ -85,36 +97,69 @@ class MailQueue
 	}
 
 	/**
-	 * @return the $bodyText
+	 * @return string|object $body
 	 */
-	public function getBodyText()
+	public function getBody()
 	{
-		return $this->bodyText;
+		return $this->body;
 	}
 
 	/**
-	 * @param field_type $bodyText
+	 * @param string|object $body
 	 */
-	public function setBodyText($bodyText)
+	public function setBody($body)
 	{
-		$this->bodyText = $bodyText;
+		$this->body = $body;
 		return $this;
 	}
 
 	/**
-	 * @return the $bodyHtml
+	 * @return number $priority
 	 */
-	public function getBodyHtml()
+	public function getPriority()
 	{
-		return $this->bodyHtml;
+		return $this->priority;
 	}
 
 	/**
-	 * @param field_type $bodyHtml
+	 * @param number $priority
 	 */
-	public function setBodyHtml($bodyHtml)
+	public function setPriority($priority)
 	{
-		$this->bodyHtml = $bodyHtml;
+		$this->priority = $priority;
+		return $this;
+	}
+	/**
+	 * @return string $layout
+	 */
+	public function getLayout()
+	{
+		return $this->layout;
+	}
+
+	/**
+	 * @param string $layout
+	 */
+	public function setLayout($layout)
+	{
+		$this->layout = $layout;
+		return $this;
+	}
+
+	/**
+	 * @return string $transport
+	 */
+	public function getTransport()
+	{
+		return $this->transport;
+	}
+
+	/**
+	 * @param string $transport
+	 */
+	public function setTransport($transport)
+	{
+		$this->transport = $transport;
 		return $this;
 	}
 

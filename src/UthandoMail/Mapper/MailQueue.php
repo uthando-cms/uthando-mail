@@ -14,6 +14,7 @@ class MailQueue extends AbstractMapper
     {
         $select = $this->getSelect();
         $select = $this->setLimit($select, $limit, 0);
+        $select = $this->setSortOrder($select, 'priority');
         
         return $this->fetchResult($select);
     }

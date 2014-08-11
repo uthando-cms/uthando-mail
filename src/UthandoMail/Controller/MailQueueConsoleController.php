@@ -20,6 +20,6 @@ class MailQueueConsoleController extends AbstractActionController
     	
     	$mailsSent = $mailQueueService->processQueue();
     
-    	return "No of mails sent: " . $mailsSent;
+    	return "No of mails sent: " . $mailsSent . "\r\n";
     }
 }

@@ -5,11 +5,33 @@ use Zend\Stdlib\AbstractOptions;
 
 class MailOptions extends AbstractOptions
 {
+    /**
+     * @var array
+     */
     protected $mailTransport;
+    
+    /**
+     * @var array
+     */
     protected $addressList;
+    
+    /**
+     * @var bool
+     */
+    protected $generateAlternativeBody;
+    
+    /**
+     * @var string
+     */
+    protected $layout;
+    
+    /**
+     * @var string
+     */
+    protected $charset;
 
 	/**
-	 * @return the $mailTransport
+	 * @return array $mailTransport
 	 */
 	public function getMailTransport()
 	{
@@ -17,7 +39,7 @@ class MailOptions extends AbstractOptions
 	}
 
 	/**
-	 * @param field_type $mailTransport
+	 * @param array $mailTransport
 	 */
 	public function setMailTransport($mailTransport)
 	{
@@ -26,7 +48,7 @@ class MailOptions extends AbstractOptions
 	}
 
 	/**
-	 * @return the $addressList
+	 * @return array $addressList
 	 */
 	public function getAddressList()
 	{
@@ -34,11 +56,64 @@ class MailOptions extends AbstractOptions
 	}
 
 	/**
-	 * @param field_type $addressList
+	 * @param array $addressList
 	 */
 	public function setAddressList($addressList)
 	{
 		$this->addressList = $addressList;
 		return $this;
 	}
+	
+	/**
+	 * @return bool $generateAlternativeBody
+	 */
+	public function getGenerateAlternativeBody()
+	{
+		return $this->generateAlternativeBody;
+	}
+
+	/**
+	 * @param boolean $generateAlternativeBody
+	 */
+	public function setGenerateAlternativeBody($generateAlternativeBody)
+	{
+		$this->generateAlternativeBody = $generateAlternativeBody;
+		return $this;
+	}
+	
+	/**
+	 * @return the $layout
+	 */
+	public function getLayout()
+	{
+		return $this->layout;
+	}
+
+	/**
+	 * @param string $layout
+	 */
+	public function setLayout($layout)
+	{
+		$this->layout = $layout;
+		return $this;
+	}
+
+	/**
+	 * @return the $charset
+	 */
+	public function getCharset()
+	{
+		return $this->charset;
+	}
+
+	/**
+	 * @param string $charset
+	 */
+	public function setCharset($charset)
+	{
+		$this->charset = $charset;
+		return $this;
+	}
+
+
 }

@@ -16,10 +16,9 @@ class MailFactory implements FactoryInterface
 		$options = (isset($config['uthando_mail']['send_mail'])) ? $config['uthando_mail']['send_mail'] : [];
 		
 		$options = new MailOptions($options);
+		$view = $this->getRenderer($serviceLocator);
 		
-		$mailService = new Mail();
-		$mailService->setOptions($options)
-            ->setView($this->getRenderer($serviceLocator));
+		$mailService = new Mail($view, $options);
 		
 		return $mailService;
 	}
