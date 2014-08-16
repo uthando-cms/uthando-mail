@@ -9,8 +9,6 @@ use Zend\ModuleManager\Feature\ConsoleBannerProviderInterface;
 use Zend\Mvc\MvcEvent;
 use UthandoMail\Event\MailListener;
 
-use Zend\Serializer\Serializer;
-
 class Module implements 
 AutoloaderProviderInterface,
 ConsoleUsageProviderInterface,
