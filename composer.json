@@ -18,8 +18,8 @@
 	    "php" : ">=5.4",
 	    "zendframework/zend-inputfilter" : "2.*",
 	    "zendframework/zend-console" : "2.*",
-	    "uthando-cms/uthando-common" : "dev-master",
-	    "uthando-cms/uthando-admin" : "dev-master"
+	    "uthando-cms/uthando-common" : "1.*",
+	    "uthando-cms/uthando-admin" : "1.*"
     },
     "require-dev" : {
     	"zendframework/zendframework" : "2.*"
