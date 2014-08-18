@@ -1,17 +1,21 @@
 <?php
 return array(
-    'userAcl' => [
-        'userRoles' => [
-            'admin'        => [
-                'privileges'    => [
-                    'allow' => [
-                        ['controller' => 'UthandoMail\Controller\MailQueue', 'action' => 'all'],
+    'uthando_user' => [
+        'acl' => [
+            'roles' => [
+                'admin'        => [
+                    'privileges'    => [
+                        'allow' => [
+                            'controllers' => [
+                                'UthandoMail\Controller\MailQueue' => ['action' => 'all'],
+                            ],
+                        ],
                     ],
                 ],
             ],
-        ],
-        'userResources' => [
-            'UthandoMail\Controller\MailQueue',
+            'resources' => [
+                'UthandoMail\Controller\MailQueue',
+            ],
         ],
     ],
     'controllers' => array(
