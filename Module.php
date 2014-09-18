@@ -21,37 +21,40 @@ ConsoleBannerProviderInterface
         
         $eventManager->attachAggregate(new MailListener());
     }
-    
-    public function getAutoloaderConfig()
-    {
-        return [
-            'Zend\Loader\ClassMapAutoloader' => [
-                __DIR__ . '/autoload_classmap.php',
-            ],
-        ];
-    }
 
     public function getConfig()
     {
-        return include __DIR__ . '/config/module.config.php';
+        return include __DIR__ . '/config/config.php';
+    }
+
+    public function getControllerConfig()
+    {
+        return include __DIR__ . '/config/controller.config.php';
+    }
+
+    public function getHydratorConfig()
+    {
+        return include __DIR__ . '/config/hydrator.config.php';
+    }
+
+    public function getInputFilterConfig()
+    {
+        return include __DIR__ . '/config/inputFilter.config.php';
     }
     
     public function getServiceConfig()
     {
-    	return [
-            'invokables' => [
-                'UthandoMail\Hydrator\MailQueue' => 'UthandoMail\Hydrator\MailQueue',
-                'UthandoMail\InputFilter\MailQueue' => 'UthandoMail\InputFilter\MailQueue',
-            	'UthandoMail\Mail\HtmlMessage' => 'UthandoMailQueue\Mail\HtmlMessage',
-            	'UthandoMail\Mapper\MailQueue' => 'UthandoMail\Mapper\MailQueue',
-            	'UthandoMail\Model\MailQueue' => 'UthandoMail\Model\MailQueue',
-            	'UthandoMail\Service\MailQueue' => 'UthandoMail\Service\MailQueue',
-            ],
-            'factories' => [
-                'UthandoMail\Service\Mail' => 'UthandoMail\Service\Factory\MailFactory',
-                'UthandoMail\Options\MailQueueOptions' => 'UthandoMail\Service\Factory\MailQueueOptionsFactory',
-    	   ],
-    	];
+        return include __DIR__ . '/config/service.config.php';
+    }
+
+    public function getUthandoMapperConfig()
+    {
+        return include __DIR__ . '/config/mapper.config.php';
+    }
+
+    public function getUthandoModelConfig()
+    {
+        return include __DIR__ . '/config/model.config.php';
     }
     
     public function getConsoleUsage(Console $console)
@@ -67,5 +70,14 @@ ConsoleBannerProviderInterface
         "     Welcome to Uthando Mail ZF2 Console-enabled app      \n" .
         "==------------------------------------------------------==\n" .
         "Version 1.0\n";
+    }
+
+    public function getAutoloaderConfig()
+    {
+        return [
+            'Zend\Loader\ClassMapAutoloader' => [
+                __DIR__ . '/autoload_classmap.php',
+            ],
+        ];
     }
 }

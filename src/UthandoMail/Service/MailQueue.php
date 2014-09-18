@@ -1,13 +1,11 @@
 <?php
 namespace UthandoMail\Service;
 
-use UthandoCommon\Service\AbstractService;
+use UthandoCommon\Service\AbstractMapperService;
 
-class MailQueue extends AbstractService
+class MailQueue extends AbstractMapperService
 {
-    protected $mapperClass = 'UthandoMail\Mapper\MailQueue';
-    protected $form;
-    protected $inputFilter = 'UthandoMail\InputFilter\MailQueue';
+    protected $serviceAlias = 'UthandoMailMailQueue';
     
     /**
      * @var \UthandoMail\Options\MailQueueOptions

@@ -18,12 +18,6 @@ return array(
             ],
         ],
     ],
-    'controllers' => array(
-        'invokables' => array(
-            'UthandoMail\Controller\MailQueue' => 'UthandoMail\Controller\MailQueueController',
-            'UthandoMail\Controller\MailQueueConsole' => 'UthandoMail\Controller\MailQueueConsoleController',
-        ),
-    ),
     'router' => array(
         'routes' => array(
             'admin' => array(
