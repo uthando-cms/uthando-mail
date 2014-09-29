@@ -1,15 +1,17 @@
 <?php
 namespace UthandoMail\Mapper;
 
-use UthandoCommon\Mapper\AbstractMapper;
+use UthandoCommon\Mapper\AbstractDbMapper;
 
-class MailQueue extends AbstractMapper
+class MailQueue extends AbstractDbMapper
 {
     protected $table = 'mailQueue';
     protected $primary = 'mailQueueId';
-    protected $model= 'UthandoMail\Model\MailQueue';
-    protected $hydrator = 'UthandoMail\Hydrator\MailQueue';
-    
+
+    /**
+     * @param int $limit
+     * @return \Zend\Db\ResultSet\HydratingResultSet|\Zend\Db\ResultSet\ResultSet|\Zend\Paginator\Paginator
+     */
     public function getMailsInQueue($limit)
     {
         $select = $this->getSelect();

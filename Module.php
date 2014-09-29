@@ -2,17 +2,16 @@
 
 namespace UthandoMail;
 
-use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
+use UthandoMail\Event\MailListener;
 use Zend\Console\Adapter\AdapterInterface as Console;
 use Zend\ModuleManager\Feature\ConsoleUsageProviderInterface;
 use Zend\ModuleManager\Feature\ConsoleBannerProviderInterface;
 use Zend\Mvc\MvcEvent;
-use UthandoMail\Event\MailListener;
 
-class Module implements 
-AutoloaderProviderInterface,
-ConsoleUsageProviderInterface,
-ConsoleBannerProviderInterface
+
+class Module implements
+    ConsoleUsageProviderInterface,
+    ConsoleBannerProviderInterface
 {
     public function onBootstrap(MvcEvent $event)
     {

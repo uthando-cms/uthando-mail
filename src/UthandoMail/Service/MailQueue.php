@@ -11,7 +11,10 @@ class MailQueue extends AbstractMapperService
      * @var \UthandoMail\Options\MailQueueOptions
      */
     protected $options;
-    
+
+    /**
+     * @return int
+     */
     public function processQueue()
     {
         $numberToSend = $this->getOptions()->getMaxAmountToSend();
