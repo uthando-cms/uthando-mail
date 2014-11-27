@@ -5,13 +5,10 @@ namespace UthandoMail;
 use UthandoMail\Event\MailListener;
 use Zend\Console\Adapter\AdapterInterface as Console;
 use Zend\ModuleManager\Feature\ConsoleUsageProviderInterface;
-use Zend\ModuleManager\Feature\ConsoleBannerProviderInterface;
 use Zend\Mvc\MvcEvent;
 
 
-class Module implements
-    ConsoleUsageProviderInterface,
-    ConsoleBannerProviderInterface
+class Module implements ConsoleUsageProviderInterface
 {
     public function onBootstrap(MvcEvent $event)
     {
@@ -61,14 +58,6 @@ class Module implements
     	return [
     		'mailqueue send' => 'send the next batch of mail in the mail queue',
     	];
-    }
-    
-    public function getConsoleBanner(Console $console){
-        return
-        "==------------------------------------------------------==\n" .
-        "     Welcome to Uthando Mail ZF2 Console-enabled app      \n" .
-        "==------------------------------------------------------==\n" .
-        "Version 1.0\n";
     }
 
     public function getAutoloaderConfig()
