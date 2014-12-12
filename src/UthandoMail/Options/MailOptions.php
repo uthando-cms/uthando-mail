@@ -30,90 +30,93 @@ class MailOptions extends AbstractOptions
      */
     protected $charset;
 
-	/**
-	 * @return array $mailTransport
-	 */
+    /**
+     * @return array
+     */
 	public function getMailTransport()
 	{
 		return $this->mailTransport;
 	}
 
-	/**
-	 * @param array $mailTransport
-	 */
+    /**
+     * @param $mailTransport
+     * @return $this
+     */
 	public function setMailTransport($mailTransport)
 	{
 		$this->mailTransport = $mailTransport;
 		return $this;
 	}
 
-	/**
-	 * @return array $addressList
-	 */
+    /**
+     * @return array
+     */
 	public function getAddressList()
 	{
 		return $this->addressList;
 	}
 
-	/**
-	 * @param array $addressList
-	 */
+    /**
+     * @param $addressList
+     * @return $this
+     */
 	public function setAddressList($addressList)
 	{
 		$this->addressList = $addressList;
 		return $this;
 	}
-	
-	/**
-	 * @return bool $generateAlternativeBody
-	 */
+
+    /**
+     * @return bool
+     */
 	public function getGenerateAlternativeBody()
 	{
 		return $this->generateAlternativeBody;
 	}
 
-	/**
-	 * @param boolean $generateAlternativeBody
-	 */
+    /**
+     * @param $generateAlternativeBody
+     * @return $this
+     */
 	public function setGenerateAlternativeBody($generateAlternativeBody)
 	{
 		$this->generateAlternativeBody = $generateAlternativeBody;
 		return $this;
 	}
-	
-	/**
-	 * @return the $layout
-	 */
+
+    /**
+     * @return string
+     */
 	public function getLayout()
 	{
 		return $this->layout;
 	}
 
-	/**
-	 * @param string $layout
-	 */
+    /**
+     * @param $layout
+     * @return $this
+     */
 	public function setLayout($layout)
 	{
 		$this->layout = $layout;
 		return $this;
 	}
 
-	/**
-	 * @return the $charset
-	 */
+    /**
+     * @return string
+     */
 	public function getCharset()
 	{
 		return $this->charset;
 	}
 
-	/**
-	 * @param string $charset
-	 */
+    /**
+     * @param $charset
+     * @return $this
+     */
 	public function setCharset($charset)
 	{
 		$this->charset = $charset;
 		return $this;
 	}
-
-
 }
