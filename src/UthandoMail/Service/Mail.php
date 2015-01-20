@@ -147,10 +147,12 @@ class Mail
     
     public function send(Message $message, $transport = null)
     {
-        $sender = ($transport) ? $transport : 'default';
-        $emailAddress = $this->getOption('addressList')[$sender];
-        
-        $message->setSender($emailAddress['address'], $emailAddress['name']);
+		if (!$message->getSender()) {
+			$sender       = ($transport) ? $transport : 'default';
+			$emailAddress = $this->getOption('addressList')[$sender];
+
+			$message->setSender($emailAddress['address'], $emailAddress['name']);
+		}
         
         return $this->getMailTransport($transport)
             ->send($message);

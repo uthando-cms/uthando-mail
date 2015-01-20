@@ -37,17 +37,19 @@ class MailListener implements ListenerAggregateInterface
             if (isset($data['layout_params'])) {
                 $sendMail->getLayout()->setVariables($data['layout_params']);
             }
-        } 
-        
-        if (is_array($data['recipient'])) {
-            $to = $sendMail->createAddress($data['recipient']['address'], $data['recipient']['name']);
-        } else {
-            $to = $data['recipient'];
         }
         
         $subject = $data['subject'];
         $transport = $data['transport'];
         $body = $data['body'];
+
+        $recipient = (isset($data['recipient'])) ? $data['recipient'] : $sendMail->getOption('AddressList')[$transport];
+
+        if (is_array($recipient)) {
+            $to = $sendMail->createAddress($recipient['address'], $recipient['name']);
+        } else {
+            $to = $recipient;
+        }
         
         $sender = (isset($data['sender'])) ? $data['sender'] : $sendMail->getOption('AddressList')[$transport];
         
