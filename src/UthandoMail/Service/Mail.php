@@ -242,6 +242,7 @@ class Mail
 
 	/**
 	 * @param \Zend\View\Renderer\RendererInterface $view
+	 * @return $this
 	 */
 	public function setView($view)
 	{
