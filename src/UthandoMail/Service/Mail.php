@@ -12,6 +12,8 @@ use Zend\Mail\Transport\TransportInterface;
 use Zend\Stdlib\Exception\InvalidArgumentException;
 use Zend\View\Renderer\RendererInterface;
 use Zend\Mail\Address;
+use Zend\Mime\Mime;
+use UthandoMail\Model\Attachment;
 
 class Mail
 {
@@ -31,6 +33,8 @@ class Mail
      * @var \Zend\View\Model\ViewModel
      */
     protected $layout;
+    
+    protected $attachements = [];
     
     public function __construct(RendererInterface $view, $options)
     {
@@ -77,7 +81,7 @@ class Mail
     {
         // Make sure we have a string.
         if ($body instanceof ViewModel) {
-        	$body = $this->parseTemplate($body);
+        	$body = $this->getView()->render($body);
         	$detectedMimeType = 'text/html';
         } elseif (null === $body) {
         	$detectedMimeType = 'text/plain';
@@ -99,14 +103,16 @@ class Mail
         	$mimeType = $detectedMimeType;
         }
         
+        $bodyMessage = new MimeMessage();
+        
+        //$multiPartContentMessage = new MimeMessage();
+        
         $mimePart = new MimePart($body);
         $mimePart->type = $mimeType;
         
         if (null !== ($charset = $this->getOption('charset'))) {
         	$mimePart->charset = $charset;
         }
-        
-        $message = new MimeMessage();
         
         if ($this->getOption('generateAlternativeBody') && $mimeType === 'text/html') {
         	$generatedBody = $this->renderTextBody($body);
@@ -117,12 +123,46 @@ class Mail
         		$altPart->charset = $this->getOption('charset');
         	}
         	
-        	$message->addPart($altPart);
+        	$bodyMessage->addPart($altPart);
         }
         
-        $message->addPart($mimePart);
+        $bodyMessage->addPart($mimePart);
         
-        return $message;
+        //$multiPartContentMimePart = new MimePart($multiPartContentMessage->generateMessage());
+        
+        //$multiPartContentMimePart->type = 'multipart/alternative;' . PHP_EOL . ' boundary="' .
+            //$multiPartContentMessage->getMime()->boundary() . '"';
+        
+       // $bodyMessage->addPart($multiPartContentMimePart);
+        
+        //foreach ($this->attachments as $attachment) {
+            //$bodyMessage->addPart($attachment);
+        //}
+        
+        return $bodyMessage;
+    }
+    
+    public function mimeByExtension($filename)
+    {
+        if (is_readable($filename) ) {
+            $extension = pathinfo($filename, PATHINFO_EXTENSION);
+            switch ($extension) {
+                case 'gif':
+                    $type = 'image/gif';
+                    break;
+                case 'jpg':
+                case 'jpeg':
+                    $type = 'image/jpg';
+                    break;
+                case 'png':
+                    $type = 'image/png';
+                    break;
+                default:
+                    $type = 'application/octet-stream';
+            }
+        }
+    
+        return $type;
     }
     
     public function compose($body = null, $mimeType = null)
@@ -164,7 +204,38 @@ class Mail
             $stringOrView = $this->getView()->render($stringOrView);
         }
         
+        // find inline images.
+        $xml = new \DOMDocument();
+        $xml->loadHTML($stringOrView);
+        
+        $imgs = $xml->getElementsByTagName('img');
+        
+        foreach ($imgs as $img) {
+            $file = $img->getAttribute('src');
+            
+            $base64 = base64_encode(file_get_contents($file));
+            $mime = $this->mimeByExtension($file);
+            
+            $stringOrView = str_replace($file, 'data:' . $mime . ';base64,' . $base64, $stringOrView);
+        }
+        
         return $stringOrView;
+    }
+    
+    public function addAttachment(Attachment $file, $mimeType)
+    {
+        $attachment = new MimePart($file->getBinary());
+        $attachment->type = $mimeType;
+        $attachment->disposition = Mime::DISPOSITION_ATTACHMENT;
+        $attachment->encoding = Mime::ENCODING_BASE64;
+        
+        if ($file->getFileName() !== null) {
+            $attachment->filename = $file->getFileName();
+            $attachment->id = $file->getFileName();
+        }
+        
+        $this->attachments[] = $attachment;
+        
     }
     
     public function renderTextBody($body)
