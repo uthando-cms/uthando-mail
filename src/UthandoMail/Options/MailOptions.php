@@ -29,6 +29,11 @@ class MailOptions extends AbstractOptions
      * @var string
      */
     protected $charset;
+    
+    /**
+     * @var int
+     */
+    protected $maxAmountToSend;
 
     /**
      * @return array
@@ -118,5 +123,23 @@ class MailOptions extends AbstractOptions
 	{
 		$this->charset = $charset;
 		return $this;
+	}
+	
+	/**
+	 * @return int
+	 */
+	public function getMaxAmountToSend()
+	{
+	    return $this->maxAmountToSend;
+	}
+	
+	/**
+	 * @param $maxAmountTosend
+	 * @return $this
+	 */
+	public function setMaxAmountTosend($maxAmountTosend)
+	{
+	    $this->maxAmountToSend = (int) $maxAmountTosend;
+	    return $this;
 	}
 }

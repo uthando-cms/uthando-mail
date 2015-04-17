@@ -13,7 +13,7 @@ class MailFactory implements FactoryInterface
 	public function createService(ServiceLocatorInterface $serviceLocator)
 	{
 		$config = $serviceLocator->get('config');
-		$options = (isset($config['uthando_mail']['send_mail'])) ? $config['uthando_mail']['send_mail'] : [];
+		$options = $serviceLocator->get('UthandoMail\Options\MailOptions');
 		
 		$options = new MailOptions($options);
 		$view = $this->getRenderer($serviceLocator);

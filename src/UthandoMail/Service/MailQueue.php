@@ -8,7 +8,7 @@ class MailQueue extends AbstractMapperService
     protected $serviceAlias = 'UthandoMailMailQueue';
     
     /**
-     * @var \UthandoMail\Options\MailQueueOptions
+     * @var \UthandoMail\Options\MailOptions
      */
     protected $options;
 
@@ -17,26 +17,26 @@ class MailQueue extends AbstractMapperService
      */
     public function processQueue()
     {
-        $numberToSend = $this->getOptions()->getMaxAmountToSend();
+        $options = $this->getOptions();
+        $numberToSend = $options->getMaxAmountToSend();
         $emailsToSend = $this->getMapper()->getMailsInQueue($numberToSend);
 
-        $sendMail = $this->getServiceLocator()->get('UthandoMail\Service\Mail');
         $numberSent = 0;
         
         /* @var $row \UthandoMail\Model\MailQueue */
         foreach ($emailsToSend as $row) {
             
             if ($row->getLayout()) {
-                $sendMail->setLayout($row->getLayout());
+                $options->setLayout($row->getLayout());
             }
             
-            $message = $sendMail->compose($row->getBody());
+            $message = $options->compose($row->getBody());
             
             $message->addTo($row->getRecipient())
                 ->addFrom($row->getSender())
                 ->setSubject($row->getSubject());
             
-            $sendMail->send($message, $row->getTransport());
+            $options->send($message, $row->getTransport());
             
             // delete the mail we just sent.
             $this->delete($row->getMailQueueId());
@@ -47,13 +47,13 @@ class MailQueue extends AbstractMapperService
     }
     
     /**
-     * @return \UthandoMail\Options\MailQueueOptions
+     * @return \UthandoMail\Options\MailOptions
      */
     public function getOptions()
     {
         if (!$this->options) {
             $sl = $this->getServiceLocator();
-            $this->options = $sl->get('UthandoMail\Options\MailQueueOptions');
+            $this->options = $sl->get('UthandoMail\Options\MailOptions');
         }
         
         return $this->options;

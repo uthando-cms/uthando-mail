@@ -27,6 +27,11 @@ class Module implements ConsoleUsageProviderInterface
     {
         return include __DIR__ . '/config/controller.config.php';
     }
+    
+    public function getFormElementConfig()
+    {
+        return include __DIR__ . '/config/formElement.config.php';
+    }
 
     public function getHydratorConfig()
     {

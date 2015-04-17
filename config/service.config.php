@@ -6,7 +6,7 @@ return [
         'UthandoMail\Service\MailQueue' => 'UthandoMail\Service\MailQueue',
     ],
     'factories' => [
-        'UthandoMail\Service\Mail'              => 'UthandoMail\Service\Factory\MailFactory',
-        'UthandoMail\Options\MailQueueOptions'  => 'UthandoMail\Service\Factory\MailQueueOptionsFactory',
+        'UthandoMail\Service\Mail'          => 'UthandoMail\Service\Factory\MailFactory',
+        'UthandoMail\Options\MailOptions'   => 'UthandoMail\Service\Factory\MailOptionsFactory',
     ],
 ];
