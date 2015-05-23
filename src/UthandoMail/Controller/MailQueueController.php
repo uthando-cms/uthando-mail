@@ -5,7 +5,7 @@ use UthandoCommon\Controller\AbstractCrudController;
 
 class MailQueueController extends AbstractCrudController
 {
-    protected $searchDefaultParams = array('sort' => 'mailQueueId');
+    protected $controllerSearchOverrides = ['sort' => 'mailQueueId'];
     protected $serviceName = 'UthandoMail\Service\MailQueue';
     protected $route = 'admin/mail-queue';
     

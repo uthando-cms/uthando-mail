@@ -3,6 +3,12 @@ namespace UthandoMail\Service;
 
 use UthandoCommon\Service\AbstractMapperService;
 
+/**
+ * Class MailQueue
+ *
+ * @package UthandoMail\Service
+ * @method \UthandoMail\Mapper\MailQueue getMapper($mapperClass = null, array $options = [])
+ */
 class MailQueue extends AbstractMapperService
 {
     protected $serviceAlias = 'UthandoMailMailQueue';
@@ -17,7 +23,11 @@ class MailQueue extends AbstractMapperService
      */
     public function processQueue()
     {
-        $options = $this->getOptions();
+        /* @var $sendMail \UthandoMail\Service\Mail */
+        $sendMail = $this->getService('UthandoMail\Service\Mail');
+        /* @var $options \UthandoMail\Options\MailOptions */
+        $options = $this->getService('UthandoMail\Options\MailOptions');
+
         $numberToSend = $options->getMaxAmountToSend();
         $emailsToSend = $this->getMapper()->getMailsInQueue($numberToSend);
 
@@ -27,16 +37,16 @@ class MailQueue extends AbstractMapperService
         foreach ($emailsToSend as $row) {
             
             if ($row->getLayout()) {
-                $options->setLayout($row->getLayout());
+                $sendMail->setLayout($row->getLayout());
             }
             
-            $message = $options->compose($row->getBody());
+            $message = $sendMail->compose($row->getBody());
             
             $message->addTo($row->getRecipient())
                 ->addFrom($row->getSender())
                 ->setSubject($row->getSubject());
             
-            $options->send($message, $row->getTransport());
+            $sendMail->send($message, $row->getTransport());
             
             // delete the mail we just sent.
             $this->delete($row->getMailQueueId());
@@ -44,18 +54,5 @@ class MailQueue extends AbstractMapperService
         }
         
         return $numberSent;
-    }
-    
-    /**
-     * @return \UthandoMail\Options\MailOptions
-     */
-    public function getOptions()
-    {
-        if (!$this->options) {
-            $sl = $this->getServiceLocator();
-            $this->options = $sl->get('UthandoMail\Options\MailOptions');
-        }
-        
-        return $this->options;
     }
 }

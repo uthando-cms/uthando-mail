@@ -34,7 +34,7 @@ class Mail
      */
     protected $layout;
     
-    protected $attachements = [];
+    protected $attachments = [];
     
     public function __construct(RendererInterface $view, $options)
     {

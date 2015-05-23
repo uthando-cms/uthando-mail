@@ -10,14 +10,45 @@ class MailQueue implements ModelInterface
 {
     use Model;
     use DateCreatedTrait;
-    
+
+    /**
+     * @var int
+     */
     protected $mailQueueId;
+
+    /**
+     * @var string|array|Address
+     */
     protected $recipient;
+
+    /**
+     * @var string|array|Address
+     */
     protected $sender;
+
+    /**
+     * @var string
+     */
     protected $subject;
+
+    /**
+     * @var string
+     */
     protected $body;
+
+    /**
+     * @var string
+     */
     protected $layout;
+
+    /**
+     * @var string
+     */
     protected $transport = 'default';
+
+    /**
+     * @var int
+     */
     protected $priority = 0;
     
 	/**
@@ -28,9 +59,10 @@ class MailQueue implements ModelInterface
 		return $this->mailQueueId;
 	}
 
-	/**
-	 * @param int $mailQueueId
-	 */
+    /**
+     * @param int $mailQueueId
+     * @return $this
+     */
 	public function setMailQueueId($mailQueueId)
 	{
 		$this->mailQueueId = $mailQueueId;
@@ -45,9 +77,10 @@ class MailQueue implements ModelInterface
 		return $this->recipient;
 	}
 
-	/**
-	 * @param string|array|Address $recipient
-	 */
+    /**
+     * @param string|array|Address $recipient
+     * @return $this
+     */
 	public function setRecipient($recipient)
 	{
 	    if (is_array($recipient)) {
@@ -66,9 +99,10 @@ class MailQueue implements ModelInterface
 		return $this->sender;
 	}
 
-	/**
-	 * @param string|array|Address $sender
-	 */
+    /**
+     * @param string|array|Address $sender
+     * @return $this
+     */
 	public function setSender($sender)
 	{
 	    if (is_array($sender)) {
@@ -87,9 +121,10 @@ class MailQueue implements ModelInterface
 		return $this->subject;
 	}
 
-	/**
-	 * @param string $subject
-	 */
+    /**
+     * @param string $subject
+     * @return $this
+     */
 	public function setSubject($subject)
 	{
 		$this->subject = $subject;
@@ -104,9 +139,10 @@ class MailQueue implements ModelInterface
 		return $this->body;
 	}
 
-	/**
-	 * @param string|object $body
-	 */
+    /**
+     * @param string|object $body
+     * @return $this
+     */
 	public function setBody($body)
 	{
 		$this->body = $body;
@@ -121,9 +157,10 @@ class MailQueue implements ModelInterface
 		return $this->priority;
 	}
 
-	/**
-	 * @param number $priority
-	 */
+    /**
+     * @param number $priority
+     * @return $this
+     */
 	public function setPriority($priority)
 	{
 		$this->priority = $priority;
@@ -137,9 +174,10 @@ class MailQueue implements ModelInterface
 		return $this->layout;
 	}
 
-	/**
-	 * @param string $layout
-	 */
+    /**
+     * @param string $layout
+     * @return $this
+     */
 	public function setLayout($layout)
 	{
 		$this->layout = $layout;
@@ -154,9 +192,10 @@ class MailQueue implements ModelInterface
 		return $this->transport;
 	}
 
-	/**
-	 * @param string $transport
-	 */
+    /**
+     * @param string $transport
+     * @return $this
+     */
 	public function setTransport($transport)
 	{
 		$this->transport = $transport;
