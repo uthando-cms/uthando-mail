@@ -20,7 +20,7 @@ class Mail
     use OptionsTrait;
     
     /**
-     * @var \
+     * @var \Zend\View\Renderer\RendererInterface
      */
     protected $view;
     

@@ -9,10 +9,8 @@ use UthandoMail\Service\Mail;
 
 class MailFactory implements FactoryInterface
 {
-    
 	public function createService(ServiceLocatorInterface $serviceLocator)
 	{
-		$config = $serviceLocator->get('config');
 		$options = $serviceLocator->get('UthandoMail\Options\MailOptions');
 		
 		$options = new MailOptions($options);
