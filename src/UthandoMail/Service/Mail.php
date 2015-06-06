@@ -82,9 +82,9 @@ class Mail
         // Make sure we have a string.
         if ($body instanceof ViewModel) {
         	$body = $this->getView()->render($body);
-        	$detectedMimeType = 'text/html';
+        	$detectedMimeType = Mime::TYPE_HTML;
         } elseif (null === $body) {
-        	$detectedMimeType = 'text/plain';
+        	$detectedMimeType = Mime::TYPE_TEXT;
         	$body = '';
         }
         
@@ -93,53 +93,59 @@ class Mail
         		'content' => $body,
         	));
         	
-        	$detectedMimeType = 'text/html';
+        	$detectedMimeType = Mime::TYPE_HTML;
         	$body = $this->parseTemplate($layout);
         }
         
         if (null === $mimeType && !isset($detectedMimeType)) {
-        	$mimeType = preg_match("/<[^<]+>/", $body) ? 'text/html' : 'text/plain';
+        	$mimeType = preg_match("/<[^<]+>/", $body) ? Mime::TYPE_HTML : Mime::TYPE_TEXT;
         } elseif (null === $mimeType) {
         	$mimeType = $detectedMimeType;
         }
         
-        $bodyMessage = new MimeMessage();
-        
-        //$multiPartContentMessage = new MimeMessage();
-        
-        $mimePart = new MimePart($body);
-        $mimePart->type = $mimeType;
+        $htmlPart = new MimePart($body);
+        $htmlPart->type = $mimeType;
+        $htmlPart->encoding = Mime::ENCODING_QUOTEDPRINTABLE;
         
         if (null !== ($charset = $this->getOption('charset'))) {
-        	$mimePart->charset = $charset;
+        	$htmlPart->charset = $charset;
         }
         
-        if ($this->getOption('generateAlternativeBody') && $mimeType === 'text/html') {
-        	$generatedBody = $this->renderTextBody($body);
-        	$altPart = new MimePart($generatedBody);
-        	$altPart->type = 'text/plain';
+        if ($mimeType === Mime::TYPE_HTML) {
+        	$text = $this->renderTextBody($body);
+        	$textPart = new MimePart($text);
+        	$textPart->type = Mime::TYPE_TEXT;
+            $textPart->encoding = Mime::ENCODING_QUOTEDPRINTABLE;
         	
         	if ($this->getOption('charset')) {
-        		$altPart->charset = $this->getOption('charset');
+        		$textPart->charset = $this->getOption('charset');
         	}
-        	
-        	$bodyMessage->addPart($altPart);
         }
+
+        $bodyMessage = new MimeMessage();
         
-        $bodyMessage->addPart($mimePart);
+        if (count($this->attachments) > 0) {
+            $content = new MimeMessage();
+            $content->addPart($textPart);
+            $content->addPart($htmlPart);
+
+            $contentPart = new MimePart($content->generateMessage());
+            $contentPart->type = 'multipart/alternative; boundary="' . $content->getMime()->boundary() . '"';
+
+            $bodyMessage->addPart($contentPart);
+            $messageType = Mime::MULTIPART_RELATED;
+
+            foreach ($this->attachments as $attachment) {
+                $bodyMessage->addPart($attachment);
+            }
+        } else {
+            $bodyMessage->setParts([$textPart, $htmlPart]);
+            $messageType = Mime::MULTIPART_ALTERNATIVE;
+        }
+
+
         
-        //$multiPartContentMimePart = new MimePart($multiPartContentMessage->generateMessage());
-        
-        //$multiPartContentMimePart->type = 'multipart/alternative;' . PHP_EOL . ' boundary="' .
-            //$multiPartContentMessage->getMime()->boundary() . '"';
-        
-       // $bodyMessage->addPart($multiPartContentMimePart);
-        
-        //foreach ($this->attachments as $attachment) {
-            //$bodyMessage->addPart($attachment);
-        //}
-        
-        return $bodyMessage;
+        return ['body' => $bodyMessage, 'type' => $messageType];
     }
     
     public function mimeByExtension($filename)
@@ -174,13 +180,11 @@ class Mail
     		);
     	}
     	
-    	$body = $this->getMessageBody($body, $mimeType);
+    	$bodyParts = $this->getMessageBody($body, $mimeType);
     	$message = new Message;
-    	$message->setBody($body);
-    	
-    	if ($this->getOption('generateAlternativeBody') && count($body->getParts()) > 1) {
-    		$message->getHeaders()->get('content-type')->setType('multipart/alternative');
-    	}
+    	$message->setBody($bodyParts['body']);
+        $message->getHeaders()->get('content-type')->setType($bodyParts['type']);
+        $message->setEncoding('UTF-8');
     	
     	return $message;
     }
@@ -208,21 +212,33 @@ class Mail
         $xml = new \DOMDocument();
         $xml->loadHTML($stringOrView);
         
-        $imgs = $xml->getElementsByTagName('img');
+        $images = $xml->getElementsByTagName('img');
         
-        foreach ($imgs as $img) {
-            $file = $img->getAttribute('src');
+        foreach ($images as $image) {
+            $file = $image->getAttribute('src');
             
-            $base64 = base64_encode(file_get_contents($file));
+            $binary = file_get_contents($file);
             $mime = $this->mimeByExtension($file);
+
+            $fileName = pathinfo($file, PATHINFO_BASENAME);
+
+            $attachment = new MimePart($binary);
+            $attachment->setType($mime);
+            $attachment->setDisposition(Mime::DISPOSITION_ATTACHMENT);
+            $attachment->setEncoding(Mime::ENCODING_BASE64);
+
+            $attachment->setFileName($fileName);
+            $attachment->setId('cid_' . md5($fileName));
             
-            $stringOrView = str_replace($file, 'data:' . $mime . ';base64,' . $base64, $stringOrView);
+            $stringOrView = str_replace($file, 'cid:' . $attachment->getId(), $stringOrView);
+
+            $this->attachments[] = $attachment;
         }
         
         return $stringOrView;
     }
     
-    public function addAttachment(Attachment $file, $mimeType)
+    /*public function addAttachment(Attachment $file, $mimeType)
     {
         $attachment = new MimePart($file->getBinary());
         $attachment->type = $mimeType;
@@ -236,7 +252,7 @@ class Mail
         
         $this->attachments[] = $attachment;
         
-    }
+    }*/
     
     public function renderTextBody($body)
     {
