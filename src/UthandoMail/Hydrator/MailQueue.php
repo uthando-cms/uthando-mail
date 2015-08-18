@@ -3,7 +3,7 @@ namespace UthandoMail\Hydrator;
 
 use UthandoCommon\Hydrator\AbstractHydrator;
 use UthandoCommon\Hydrator\Strategy\DateTime as DateTimeStrategy;
-use UthandoCommon\Hydrator\Strategy\Null as NullStrategy;
+use UthandoCommon\Hydrator\Strategy\NullStrategy;
 use UthandoCommon\Hydrator\Strategy\Serialize;
 
 class MailQueue extends AbstractHydrator
