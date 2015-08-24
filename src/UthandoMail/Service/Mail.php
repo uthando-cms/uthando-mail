@@ -139,7 +139,14 @@ class Mail
                 $bodyMessage->addPart($attachment);
             }
         } else {
-            $bodyMessage->setParts([$textPart, $htmlPart]);
+            if (isset($textPart)) {
+                $bodyMessage->addPart($textPart);
+            }
+
+            if (isset($htmlPart)) {
+                $bodyMessage->addPart($htmlPart);
+            }
+
             $messageType = Mime::MULTIPART_ALTERNATIVE;
         }
 

@@ -136,15 +136,11 @@ return [
     ],
     'navigation' => [
         'admin' => [
-            'modules' => [
-                'pages' => [
-                    'mail-queue' => [
-                        'label'     => 'Mail Queue',
-                        'action'    => 'index',
-                        'route'     => 'admin/mail-queue',
-                        'resource'  => 'menu:admin'
-                    ],
-                ],
+            'mail-queue' => [
+                'label'     => 'Mail Queue',
+                'action'    => 'index',
+                'route'     => 'admin/mail-queue',
+                'resource'  => 'menu:admin'
             ],
         ],
     ],
