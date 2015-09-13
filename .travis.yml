@@ -7,7 +7,7 @@ php:
 before_script:
   - cd ..
   - git clone git://github.com/uthando-cms/uthando.git
-  - git clone git://github.com/uthando-cms/uthando-coomon.git
+  - git clone git://github.com/uthando-cms/uthando-common.git
   - cd uthando
   - composer install
   - cp -R ../uthando-mail ./module/UthandoMail
