@@ -1,16 +1,32 @@
 <?php
+/**
+ * Uthando CMS (http://www.shaunfreeman.co.uk/)
+ *
+ * @package   UthandoMail\Model
+ * @author    Shaun Freeman <shaun@shaunfreeman.co.uk>
+ * @copyright Copyright (c) 2014 Shaun Freeman. (http://www.shaunfreeman.co.uk)
+ * @license   see LICENSE
+ */
+
 namespace UthandoMail\Model;
 
+/**
+ * Class Attachment
+ *
+ * @package UthandoMail\Model
+ */
 class Attachment
 {
     /**
      * @var string
      */
     private $binary;
+
     /**
      * @var string
      */
     private $fileName;
+
     /**
      * @return string
      */
@@ -18,6 +34,7 @@ class Attachment
     {
         return $this->binary;
     }
+
     /**
      * @return string
      */
@@ -25,6 +42,7 @@ class Attachment
     {
         return $this->fileName;
     }
+
     /**
      * @param string $binary
      * @return Attachment
@@ -34,6 +52,7 @@ class Attachment
         $this->binary = $binary;
         return $this;
     }
+
     /**
      * @param string $fileName
      * @return Attachment

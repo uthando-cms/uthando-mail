@@ -10,8 +10,14 @@
 
 namespace UthandoMail\Controller;
 
+use Zend\Mvc\Controller\AbstractActionController;
 
-class SettingsController
+/**
+ * Class SettingsController
+ *
+ * @package UthandoMail\Controller
+ */
+class SettingsController extends AbstractActionController
 {
 
 }

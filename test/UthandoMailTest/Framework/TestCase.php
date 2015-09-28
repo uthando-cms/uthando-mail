@@ -1,16 +1,18 @@
 <?php
 
-namespace UthandoTwitterTest\Framework;
+namespace UthandoMailTest\Framework;
 
-use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
+use UthandoMailTest\Bootstrap;
 
-class TestCase extends AbstractHttpControllerTestCase
+class TestCase extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var \Zend\ServiceManager\ServiceManager
+     */
+    protected $serviceManager;
+
     protected function setUp()
     {
-        $this->setApplicationConfig(
-            include __DIR__ . '/../../TestConfig.php.dist'
-        );
-        parent::setUp();
+        $this->serviceManager = Bootstrap::getServiceManager();
     }
 }

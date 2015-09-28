@@ -1,6 +1,6 @@
 <?php
 
-namespace UthandoTwitterTest;
+namespace UthandoMailTest;
 
 use Zend\Loader\AutoloaderFactory;
 use Zend\Mvc\Service\ServiceManagerConfig;
@@ -21,7 +21,20 @@ class Bootstrap
         static::initAutoloader();
 
         // use ModuleManager to load this module and it's dependencies
-        $config = include __DIR__ . '/TestConfig.php.dist';
+        $config = array(
+            'module_listener_options' => array(
+                'module_paths' => [
+                    './module',
+                    './devmodules',
+                    './vendor',
+                ],
+            ),
+            'modules' => array(
+                'Application',
+                'UthandoCommon',
+                'UthandoMail',
+            ),
+        );
 
         $serviceManager = new ServiceManager(new ServiceManagerConfig());
         $serviceManager->setService('ApplicationConfig', $config);

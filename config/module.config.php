@@ -1,23 +1,5 @@
 <?php
 return [
-    'uthando_user' => [
-        'acl' => [
-            'roles' => [
-                'admin'        => [
-                    'privileges'    => [
-                        'allow' => [
-                            'controllers' => [
-                                'UthandoMail\Controller\MailQueue' => ['action' => 'all'],
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-            'resources' => [
-                'UthandoMail\Controller\MailQueue',
-            ],
-        ],
-    ],
     'controllers' => [
         'invokables' => [
             'UthandoMail\Controller\MailQueue'          => 'UthandoMail\Controller\MailQueueController',
@@ -60,88 +42,6 @@ return [
         ],
     ],
     'view_manager' => [
-        'template_path_stack' => [
-            'UthandoMailQueue' => __DIR__ . '/../view',
-        ],
-    ],
-    'router' => [
-        'routes' => [
-            'admin' => [
-                'child_routes' => [
-                    'mail-queue' => [
-                        'type'    => 'Segment',
-                        'options' => [
-                            // Change this to something specific to your module
-                            'route'    => '/mail-queue',
-                            'defaults' => [
-                                // Change this value to reflect the namespace in which
-                                // the controllers for your module are found
-                                '__NAMESPACE__' => 'UthandoMail\Controller',
-                                'controller'    => 'MailQueue',
-                                'action'        => 'index',
-                                'force-ssl'     => 'ssl',
-                            ],
-                        ],
-                        'may_terminate' => true,
-                        'child_routes' => [
-                            'edit' => [
-                                'type'    => 'Segment',
-                                'options' => [
-                                    'route'    => '/[:action[/id/[:id]]]',
-                                    'constraints' => [
-                                        'action'    => '[a-zA-Z][a-zA-Z0-9_-]*',
-        								'id'		=> '\d+'
-                                    ],
-                                    'defaults' => [
-                                        'action'        => 'edit',
-                                        'force-ssl'     => 'ssl'
-                                    ],
-                                ],
-                            ],
-                            'page' => [
-                            	'type'    => 'Segment',
-                            	'options' => [
-                            		'route'    => '/page/[:page]',
-                            		'constraints' => [
-                            			'page' => '\d+'
-                                    ],
-                            		'defaults' => [
-                            			'action'        => 'list',
-        								'page'          => 1,
-        							    'force-ssl'     => 'ssl'
-                                    ],
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-        ],
-    ],
-    'console' => [
-		'router' => [
-			'routes' => [
-				'mail/queue/send' => [
-					'options' => [
-						'route' => 'mailqueue send',
-						'defaults' => [
-							'__NAMESPACE__' => 'UthandoMail\Controller',
-							'controller' => 'MailQueueConsole',
-							'action' => 'send'
-                        ],
-                    ],
-                ],
-            ],
-        ],
-    ],
-    'navigation' => [
-        'admin' => [
-            'mail-queue' => [
-                'label'     => 'Mail Queue',
-                'action'    => 'index',
-                'route'     => 'admin/mail-queue',
-                'resource'  => 'menu:admin'
-            ],
-        ],
+         'template_map' => include __DIR__  .'/../template_map.php',
     ],
 ];

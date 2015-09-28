@@ -18,5 +18,5 @@ script:
   - phpunit
 
 after_script:
-  - cd ../../../
-  - php vendor/bin/test-reporter --coverage-report=build/logs/clover-UthandoMail.xml
+  - cd ../
+  - php vendor/bin/test-reporter --coverage-report=build/logs/clover.xml

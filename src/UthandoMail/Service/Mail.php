@@ -1,6 +1,17 @@
 <?php
+/**
+ * Uthando CMS (http://www.shaunfreeman.co.uk/)
+ *
+ * @package   UthandoMail\Service
+ * @author    Shaun Freeman <shaun@shaunfreeman.co.uk>
+ * @copyright Copyright (c) 2014 Shaun Freeman. (http://www.shaunfreeman.co.uk)
+ * @license   see LICENSE
+ */
+
 namespace UthandoMail\Service;
 
+use DOMElement;
+use Zend\Mail\Header\ContentType;
 use Zend\Mail\Message;
 use Zend\Mail\Transport;
 use Zend\Mime\Part as MimePart;
@@ -13,8 +24,12 @@ use Zend\Stdlib\Exception\InvalidArgumentException;
 use Zend\View\Renderer\RendererInterface;
 use Zend\Mail\Address;
 use Zend\Mime\Mime;
-use UthandoMail\Model\Attachment;
 
+/**
+ * Class Mail
+ *
+ * @package UthandoMail\Service
+ */
 class Mail
 {
     use OptionsTrait;
@@ -33,9 +48,16 @@ class Mail
      * @var \Zend\View\Model\ViewModel
      */
     protected $layout;
-    
+
+    /**
+     * @var array
+     */
     protected $attachments = [];
-    
+
+    /**
+     * @param RendererInterface $view
+     * @param $options
+     */
     public function __construct(RendererInterface $view, $options)
     {
         $this->setOptions($options);
@@ -43,7 +65,11 @@ class Mail
         
         $this->setLayout();
     }
-    
+
+    /**
+     * @param null $layout
+     * @return $this|void
+     */
     public function setLayout($layout = null)
     {
     	if (null !== $layout && !is_string($layout) && !($layout instanceof ViewModel)) {
@@ -54,7 +80,7 @@ class Mail
     	}
     	
     	if (null === $layout && $this->hasOption('layout')) {
-    		return;
+    		return $this;
     	}
     	
     	if (null === $layout) {
@@ -71,12 +97,20 @@ class Mail
     	
     	return $this;
     }
-    
+
+    /**
+     * @return ViewModel
+     */
     public function getLayout()
     {
     	return $this->layout;
     }
-    
+
+    /**
+     * @param $body
+     * @param null $mimeType
+     * @return array
+     */
     public function getMessageBody($body, $mimeType = null)
     {
         // Make sure we have a string.
@@ -126,8 +160,14 @@ class Mail
         
         if (count($this->attachments) > 0) {
             $content = new MimeMessage();
-            $content->addPart($textPart);
-            $content->addPart($htmlPart);
+
+            if (isset($textPart)) {
+                $content->addPart($textPart);
+            }
+
+            if (isset($content)) {
+                $content->addPart($htmlPart);
+            }
 
             $contentPart = new MimePart($content->generateMessage());
             $contentPart->type = 'multipart/alternative; boundary="' . $content->getMime()->boundary() . '"';
@@ -154,9 +194,15 @@ class Mail
         
         return ['body' => $bodyMessage, 'type' => $messageType];
     }
-    
+
+    /**
+     * @param $filename
+     * @return string
+     */
     public function mimeByExtension($filename)
     {
+        $type = '';
+
         if (is_readable($filename) ) {
             $extension = pathinfo($filename, PATHINFO_EXTENSION);
             switch ($extension) {
@@ -177,7 +223,12 @@ class Mail
     
         return $type;
     }
-    
+
+    /**
+     * @param null $body
+     * @param null $mimeType
+     * @return Message
+     */
     public function compose($body = null, $mimeType = null)
     {
     	// Supported types are null, ViewModel and string.
@@ -190,12 +241,19 @@ class Mail
     	$bodyParts = $this->getMessageBody($body, $mimeType);
     	$message = new Message;
     	$message->setBody($bodyParts['body']);
-        $message->getHeaders()->get('content-type')->setType($bodyParts['type']);
+        /* @var ContentType $contentType */
+        $contentType = $message->getHeaders()->get('content-type');
+        $contentType->setType($bodyParts['type']);
         $message->setEncoding('UTF-8');
     	
     	return $message;
     }
-    
+
+    /**
+     * @param Message $message
+     * @param null $transport
+     * @return mixed
+     */
     public function send(Message $message, $transport = null)
     {
 		if (!$message->getSender()) {
@@ -208,7 +266,11 @@ class Mail
         return $this->getMailTransport($transport)
             ->send($message);
     }
-    
+
+    /**
+     * @param $stringOrView
+     * @return mixed|string
+     */
     public function parseTemplate($stringOrView)
     {
         if ($stringOrView instanceof ViewModel) {
@@ -220,7 +282,8 @@ class Mail
         $xml->loadHTML($stringOrView);
         
         $images = $xml->getElementsByTagName('img');
-        
+
+        /* @var DomElement $image */
         foreach ($images as $image) {
             $file = $image->getAttribute('src');
             
@@ -244,23 +307,11 @@ class Mail
         
         return $stringOrView;
     }
-    
-    /*public function addAttachment(Attachment $file, $mimeType)
-    {
-        $attachment = new MimePart($file->getBinary());
-        $attachment->type = $mimeType;
-        $attachment->disposition = Mime::DISPOSITION_ATTACHMENT;
-        $attachment->encoding = Mime::ENCODING_BASE64;
-        
-        if ($file->getFileName() !== null) {
-            $attachment->filename = $file->getFileName();
-            $attachment->id = $file->getFileName();
-        }
-        
-        $this->attachments[] = $attachment;
-        
-    }*/
-    
+
+    /**
+     * @param $body
+     * @return string
+     */
     public function renderTextBody($body)
     {
     	$body = html_entity_decode(
@@ -273,12 +324,21 @@ class Mail
     	 
     	return $body;
     }
-    
+
+    /**
+     * @param $email
+     * @param null $name
+     * @return Address
+     */
     public function createAddress($email, $name = null)
     {
     	return new Address($email, $name);
     }
-    
+
+    /**
+     * @param null $config
+     * @return mixed
+     */
     public function getMailTransport($config = null)
     {
         $config = ($config) ? (string) $config : 'default';
@@ -320,7 +380,11 @@ class Mail
         
         return $this->transport[$config];
     }
-    
+
+    /**
+     * @param TransportInterface $transport
+     * @param string $config
+     */
     public function setTransport(TransportInterface $transport, $config = 'default')
     {
         $this->transport[$config] = $transport;

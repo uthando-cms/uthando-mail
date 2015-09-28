@@ -1,37 +1,41 @@
 {
-    "name": "uthando-cms/uthando-mail",
-    "description": "Mail module for Uthando CMS",
-    "license": "BSD-3-Clause",
-    "keywords": [ "framework", "zf2","cms", "uthando", "mail"],
-    "homepage": "http://shaunfreeman.name/",
-    
-    "authors": [
-        {
-            "name": "Shaun Freeman",
-            "email": "shaun@shaunfreeman.co.uk",
-            "homepage": "https://github.com/shaunfreeman",
-            "role": "Developer"
-        }
-    ],
-    
-    "require" : {
-	    "php" : ">=5.4",
-	    "zendframework/zend-inputfilter" : "2.*",
-	    "zendframework/zend-console" : "2.*",
-	    "zendframework/zend-mail" : "2.*",
-	    "zendframework/zend-mime" : "2.*",
-	    "uthando-cms/uthando-common" : "1.*",
-	    "uthando-cms/uthando-admin" : "1.*"
-    },
-    "require-dev" : {
-    	"zendframework/zendframework" : "2.*"
-    },
-    "autoload": {
-        "psr-0": {
-            "UthandoMail": "src/"
-        },
-        "classmap": [
-            "./Module.php"
-        ]
+  "name": "uthando-cms/uthando-mail",
+  "description": "Mail module for Uthando CMS",
+  "license": "BSD-3-Clause",
+  "keywords": [
+    "framework",
+    "zf2",
+    "cms",
+    "uthando",
+    "mail"
+  ],
+  "homepage": "http://shaunfreeman.name/",
+  "authors": [
+    {
+      "name": "Shaun Freeman",
+      "email": "shaun@shaunfreeman.co.uk",
+      "homepage": "https://github.com/shaunfreeman",
+      "role": "Developer"
     }
+  ],
+  "require": {
+    "php": ">=5.4",
+    "zendframework/zend-inputfilter": "2.*",
+    "zendframework/zend-console": "2.*",
+    "zendframework/zend-mail": "2.*",
+    "zendframework/zend-mime": "2.*",
+    "uthando-cms/uthando-common": "1.*",
+    "uthando-cms/uthando-admin": "1.*"
+  },
+  "require-dev": {
+    "zendframework/zendframework": "2.*"
+  },
+  "autoload": {
+    "psr-0": {
+      "UthandoMail": "src/"
+    },
+    "classmap": [
+      "./Module.php"
+    ]
+  }
 }

@@ -1,4 +1,13 @@
 <?php
+/**
+ * Uthando CMS (http://www.shaunfreeman.co.uk/)
+ *
+ * @package   UthandoMail\Model
+ * @author    Shaun Freeman <shaun@shaunfreeman.co.uk>
+ * @copyright Copyright (c) 2014 Shaun Freeman. (http://www.shaunfreeman.co.uk)
+ * @license   see LICENSE
+ */
+
 namespace UthandoMail\Model;
 
 use UthandoCommon\Model\Model;
@@ -6,6 +15,11 @@ use UthandoCommon\Model\DateCreatedTrait;
 use Zend\Mail\Address;
 use UthandoCommon\Model\ModelInterface;
 
+/**
+ * Class MailQueue
+ *
+ * @package UthandoMail\Model
+ */
 class MailQueue implements ModelInterface
 {
     use Model;
@@ -50,156 +64,156 @@ class MailQueue implements ModelInterface
      * @var int
      */
     protected $priority = 0;
-    
-	/**
-	 * @return int $mailQueueId
-	 */
-	public function getMailQueueId()
-	{
-		return $this->mailQueueId;
-	}
+
+    /**
+     * @return int $mailQueueId
+     */
+    public function getMailQueueId()
+    {
+        return $this->mailQueueId;
+    }
 
     /**
      * @param int $mailQueueId
      * @return $this
      */
-	public function setMailQueueId($mailQueueId)
-	{
-		$this->mailQueueId = $mailQueueId;
-		return $this;
-	}
+    public function setMailQueueId($mailQueueId)
+    {
+        $this->mailQueueId = $mailQueueId;
+        return $this;
+    }
 
-	/**
-	 * @return string $recipient
-	 */
-	public function getRecipient()
-	{
-		return $this->recipient;
-	}
+    /**
+     * @return string $recipient
+     */
+    public function getRecipient()
+    {
+        return $this->recipient;
+    }
 
     /**
      * @param string|array|Address $recipient
      * @return $this
      */
-	public function setRecipient($recipient)
-	{
-	    if (is_array($recipient)) {
-	    	$recipient = new Address($recipient['address'], $recipient['name']);
-	    }
-	    
-		$this->recipient = $recipient;
-		return $this;
-	}
+    public function setRecipient($recipient)
+    {
+        if (is_array($recipient)) {
+            $recipient = new Address($recipient['address'], $recipient['name']);
+        }
 
-	/**
-	 * @return string $sender
-	 */
-	public function getSender()
-	{
-		return $this->sender;
-	}
+        $this->recipient = $recipient;
+        return $this;
+    }
+
+    /**
+     * @return string $sender
+     */
+    public function getSender()
+    {
+        return $this->sender;
+    }
 
     /**
      * @param string|array|Address $sender
      * @return $this
      */
-	public function setSender($sender)
-	{
-	    if (is_array($sender)) {
-	        $sender = new Address($sender['address'], $sender['name']);
-	    }
-	    
-		$this->sender = $sender;
-		return $this;
-	}
+    public function setSender($sender)
+    {
+        if (is_array($sender)) {
+            $sender = new Address($sender['address'], $sender['name']);
+        }
 
-	/**
-	 * @return string $subject
-	 */
-	public function getSubject()
-	{
-		return $this->subject;
-	}
+        $this->sender = $sender;
+        return $this;
+    }
+
+    /**
+     * @return string $subject
+     */
+    public function getSubject()
+    {
+        return $this->subject;
+    }
 
     /**
      * @param string $subject
      * @return $this
      */
-	public function setSubject($subject)
-	{
-		$this->subject = $subject;
-		return $this;
-	}
+    public function setSubject($subject)
+    {
+        $this->subject = $subject;
+        return $this;
+    }
 
-	/**
-	 * @return string|object $body
-	 */
-	public function getBody()
-	{
-		return $this->body;
-	}
+    /**
+     * @return string|object $body
+     */
+    public function getBody()
+    {
+        return $this->body;
+    }
 
     /**
      * @param string|object $body
      * @return $this
      */
-	public function setBody($body)
-	{
-		$this->body = $body;
-		return $this;
-	}
+    public function setBody($body)
+    {
+        $this->body = $body;
+        return $this;
+    }
 
-	/**
-	 * @return number $priority
-	 */
-	public function getPriority()
-	{
-		return $this->priority;
-	}
+    /**
+     * @return number $priority
+     */
+    public function getPriority()
+    {
+        return $this->priority;
+    }
 
     /**
      * @param number $priority
      * @return $this
      */
-	public function setPriority($priority)
-	{
-		$this->priority = $priority;
-		return $this;
-	}
-	/**
-	 * @return string $layout
-	 */
-	public function getLayout()
-	{
-		return $this->layout;
-	}
+    public function setPriority($priority)
+    {
+        $this->priority = $priority;
+        return $this;
+    }
+
+    /**
+     * @return string $layout
+     */
+    public function getLayout()
+    {
+        return $this->layout;
+    }
 
     /**
      * @param string $layout
      * @return $this
      */
-	public function setLayout($layout)
-	{
-		$this->layout = $layout;
-		return $this;
-	}
+    public function setLayout($layout)
+    {
+        $this->layout = $layout;
+        return $this;
+    }
 
-	/**
-	 * @return string $transport
-	 */
-	public function getTransport()
-	{
-		return $this->transport;
-	}
+    /**
+     * @return string $transport
+     */
+    public function getTransport()
+    {
+        return $this->transport;
+    }
 
     /**
      * @param string $transport
      * @return $this
      */
-	public function setTransport($transport)
-	{
-		$this->transport = $transport;
-		return $this;
-	}
-
+    public function setTransport($transport)
+    {
+        $this->transport = $transport;
+        return $this;
+    }
 }
