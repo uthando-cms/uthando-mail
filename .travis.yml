@@ -1,8 +1,7 @@
 language: php
 
 php:
-  - 5.5
-  - 5.6
+  - 7.0
 
 before_script:
   - cd ..
@@ -15,8 +14,9 @@ before_script:
   - cd module/UthandoMail/test
 
 script:
-  - phpunit
+  - phpdbg -qrr ../../../vendor/bin/phpunit -v
 
 after_script:
   - cd ../
+  - cp -R ../../vendor ./vendor
   - php vendor/bin/test-reporter --coverage-report=build/logs/clover.xml
