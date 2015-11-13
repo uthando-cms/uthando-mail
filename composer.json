@@ -24,11 +24,7 @@
     "zendframework/zend-console": "2.*",
     "zendframework/zend-mail": "2.*",
     "zendframework/zend-mime": "2.*",
-    "uthando-cms/uthando-common": "1.*",
-    "uthando-cms/uthando-admin": "1.*"
-  },
-  "require-dev": {
-    "zendframework/zendframework": "2.*"
+    "uthando-cms/uthando-common": "2.*"
   },
   "autoload": {
     "psr-0": {
