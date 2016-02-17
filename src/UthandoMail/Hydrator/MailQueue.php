@@ -12,7 +12,6 @@ namespace UthandoMail\Hydrator;
 
 use UthandoCommon\Hydrator\AbstractHydrator;
 use UthandoCommon\Hydrator\Strategy\DateTime as DateTimeStrategy;
-use UthandoCommon\Hydrator\Strategy\NullStrategy;
 use UthandoCommon\Hydrator\Strategy\Serialize;
 
 /**
@@ -32,7 +31,7 @@ class MailQueue extends AbstractHydrator
         $serialize = new Serialize();
 
         $this->addStrategy('dateCreated', new DateTimeStrategy());
-        $this->addStrategy('layout', new NullStrategy());
+        $this->addStrategy('layout', $serialize);
         $this->addStrategy('body', $serialize);
         $this->addStrategy('sender', $serialize);
         $this->addStrategy('recipient', $serialize);
@@ -46,15 +45,16 @@ class MailQueue extends AbstractHydrator
     public function extract($object)
     {
         return [
-            'mailQueueId' => $object->getMailQueueId(),
-            'recipient' => $this->extractValue('recipient', $object->getRecipient()),
-            'sender' => $this->extractValue('sender', $object->getSender()),
-            'subject' => $object->getSubject(),
-            'body' => $this->extractValue('body', $object->getBody()),
-            'layout' => $this->extractValue('layout', $object->getLayout()),
-            'transport' => $object->getTransport(),
-            'priority' => $object->getPriority(),
-            'dateCreated' => $this->extractValue('dateCreated', $object->getDateCreated()),
+            'mailQueueId'   => $object->getMailQueueId(),
+            'recipient'     => $this->extractValue('recipient', $object->getRecipient()),
+            'sender'        => $this->extractValue('sender', $object->getSender()),
+            'subject'       => $object->getSubject(),
+            'body'          => $this->extractValue('body', $object->getBody()),
+            'layout'        => $this->extractValue('layout', $object->getLayout()),
+            'transport'     => $object->getTransport(),
+            'renderer'      => $object->getRenderer(),
+            'priority'      => $object->getPriority(),
+            'dateCreated'   => $this->extractValue('dateCreated', $object->getDateCreated()),
         ];
 
     }

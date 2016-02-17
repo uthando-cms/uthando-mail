@@ -11,11 +11,13 @@
 namespace UthandoMail\Event;
 
 use UthandoCommon\Service\ServiceException;
+use UthandoCommon\Service\ServiceManager;
+use UthandoMail\Service\Mail;
+use UthandoMail\Service\MailQueue;
 use Zend\EventManager\Event;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\ListenerAggregateInterface;
 use Zend\EventManager\ListenerAggregateTrait;
-use Zend\ServiceManager\ServiceManager;
 
 /**
  * Class MailListener
@@ -51,8 +53,14 @@ class MailListener implements ListenerAggregateInterface
         /* @var ServiceManager $sl */
         $sl = $e->getTarget()->getServiceLocator();
 
-        /* @var $sendMail \UthandoMail\Service\Mail */
+        /* @var $sendMail Mail */
         $sendMail = $sl->get('UthandoMail\Service\Mail');
+
+        if (isset($data['renderer']) && $sl->getServiceLocator()->has($data['renderer'])) {
+            $sendMail->setView(
+                $sl->get($data['renderer'])
+            );
+        }
 
         if (isset($data['layout'])) {
             $sendMail->setLayout($data['layout']);
@@ -101,10 +109,10 @@ class MailListener implements ListenerAggregateInterface
         $sl = $e->getTarget()->getServiceLocator();
         $data = $e->getParams();
 
-        /* @var $mailQueue \UthandoMail\Service\MailQueue */
-        $mailQueue = $sl->get('UthandoMail\Service\MailQueue');
-        $hydrator = $sl->get('UthandoMail\Hydrator\MailQueue');
-        $model = $sl->get('UthandoMail\Model\MailQueue');
+        /* @var $mailQueue MailQueue */
+        $mailQueue = $sl->get('UthandoMailQueue');
+        $hydrator = $mailQueue->getHydrator();
+        $model = $mailQueue->getModel();
 
         $model = $hydrator->hydrate($data, $model);
 

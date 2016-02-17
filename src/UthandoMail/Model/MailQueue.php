@@ -61,6 +61,11 @@ class MailQueue implements ModelInterface
     protected $transport = 'default';
 
     /**
+     * @var string
+     */
+    protected $renderer = 'ViewRenderer';
+
+    /**
      * @var int
      */
     protected $priority = 0;
@@ -164,24 +169,6 @@ class MailQueue implements ModelInterface
     }
 
     /**
-     * @return number $priority
-     */
-    public function getPriority()
-    {
-        return $this->priority;
-    }
-
-    /**
-     * @param number $priority
-     * @return $this
-     */
-    public function setPriority($priority)
-    {
-        $this->priority = $priority;
-        return $this;
-    }
-
-    /**
      * @return string $layout
      */
     public function getLayout()
@@ -214,6 +201,42 @@ class MailQueue implements ModelInterface
     public function setTransport($transport)
     {
         $this->transport = $transport;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRenderer()
+    {
+        return $this->renderer;
+    }
+
+    /**
+     * @param string $renderer
+     * @return $this
+     */
+    public function setRenderer($renderer)
+    {
+        $this->renderer = $renderer;
+        return $this;
+    }
+
+    /**
+     * @return number $priority
+     */
+    public function getPriority()
+    {
+        return $this->priority;
+    }
+
+    /**
+     * @param number $priority
+     * @return $this
+     */
+    public function setPriority($priority)
+    {
+        $this->priority = $priority;
         return $this;
     }
 }

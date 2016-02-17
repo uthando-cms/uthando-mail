@@ -13,19 +13,15 @@ return [
     ],
     'hydrators' => [
         'invokables' => [
-            'UthandoMailMailQueue' => 'UthandoMail\Hydrator\MailQueue',
+            'UthandoMailQueue' => 'UthandoMail\Hydrator\MailQueue',
         ],
     ],
     'input_filters' => [
         'invokables' => [
-            'UthandoMailMailQueue' => 'UthandoMail\InputFilter\MailQueue',
+            'UthandoMailQueue' => 'UthandoMail\InputFilter\MailQueue',
         ],
     ],
     'service_manager' => [
-        'invokables' => [
-            'UthandoMail\Mail\HtmlMessage'      => 'UthandoMailQueue\Mail\HtmlMessage',
-            'UthandoMail\Service\MailQueue'     => 'UthandoMail\Service\MailQueue',
-        ],
         'factories' => [
             'UthandoMail\Service\Mail'          => 'UthandoMail\Service\Factory\MailFactory',
             'UthandoMail\Options\MailOptions'   => 'UthandoMail\Service\Factory\MailOptionsFactory',
@@ -33,12 +29,17 @@ return [
     ],
     'uthando_mappers' => [
         'invokables' => [
-            'UthandoMailMailQueue' => 'UthandoMail\Mapper\MailQueue',
+            'UthandoMailQueue' => 'UthandoMail\Mapper\MailQueue',
         ],
     ],
     'uthando_models' => [
         'invokables' => [
-            'UthandoMailMailQueue' => 'UthandoMail\Model\MailQueue',
+            'UthandoMailQueue' => 'UthandoMail\Model\MailQueue',
+        ],
+    ],
+    'uthando_services' => [
+        'invokables' => [
+            'UthandoMailQueue'     => 'UthandoMail\Service\MailQueue',
         ],
     ],
     'view_manager' => [

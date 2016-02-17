@@ -31,8 +31,9 @@ class MailQueueConsoleController extends AbstractActionController
             throw new \RuntimeException('You can only use this action from a console!');
         }
 
-        $sl = $this->getServiceLocator();
-        $mailQueueService = $sl->get('UthandoMail\Service\MailQueue');
+        $sl = $this->getServiceLocator()->get('UthandoServiceManager');
+
+        $mailQueueService = $sl->get('UthandoMailQueue');
 
         $mailsSent = $mailQueueService->processQueue();
 
