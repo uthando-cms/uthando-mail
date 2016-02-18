@@ -10,7 +10,6 @@
 
 namespace UthandoMail\Service\Factory;
 
-use UthandoMail\Options\MailOptions;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Renderer\PhpRenderer;
@@ -31,7 +30,6 @@ class MailFactory implements FactoryInterface
     {
         $options = $serviceLocator->get('UthandoMail\Options\MailOptions');
 
-        $options = new MailOptions($options);
         $view = $this->getRenderer($serviceLocator);
 
         $mailService = new Mail($view, $options);

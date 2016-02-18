@@ -20,7 +20,7 @@ use UthandoCommon\Controller\AbstractCrudController;
 class MailQueueController extends AbstractCrudController
 {
     protected $controllerSearchOverrides = ['sort' => 'mailQueueId'];
-    protected $serviceName = 'UthandoMail\Service\MailQueue';
+    protected $serviceName = 'UthandoMailQueue';
     protected $route = 'admin/mail-queue';
 
     /**
