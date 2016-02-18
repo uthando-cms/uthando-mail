@@ -1,25 +1,34 @@
-<?=$this->partial('uthando-admin/partial/search', [
-	'name'			=> 'mailQueue',
-	'searchInputs'	=> [
-		'Recipient'	=> 'reciptient',
-	],
-]);?>
-	    	
-<div id="table-mailQueue">
-	<?=$this->partial('uthando-mail/mail-queue/list', [
-	    'models' => $this->models
-	]); ?>
+
+<?php $this->headTitle('Mail Queue') ?>
+<?php $this->layout()->pageTitle = $this->translate('Mail Queue');?>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-list"></i> <?=$this->translate('Mail Queue List');?></h3>
+    </div>
+    <div class="panel-body">
+        <?=$this->partial('uthando-admin/partial/search', [
+            'name'			=> 'mail-queue',
+            'searchInputs'	=> [
+                $this->translate('Recipient')	=> 'reciptient',
+            ],
+        ]);?>
+    </div>
+    <div id="table-mail-queue" class="admin-table">
+        <?=$this->partial('uthando-mail/mail-queue/list', [
+            'models' => $this->models
+        ]); ?>
+    </div>
 </div>
 
 <?php $this->inlineScript()->captureStart(); ?>
 $(document).ready(function(){
-	$('#table-productImage').dataGrid({
+	$('#table-mail-queue').dataGrid({
 	    url : 'mail-queue/list',
 	    query: { sort : 'mailQueueId' },
-	    searchForm : $('#search-mailQueue'),
+	    searchForm : $('#search-mail-queue'),
 	    paging : 'links',
 	    columnSort: true,
-	    //rowClick : admin.product.rowClick
 	});
 });
 <?php $this->inlineScript()->captureEnd(); ?> 

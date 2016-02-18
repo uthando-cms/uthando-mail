@@ -42,6 +42,11 @@ return [
             'UthandoMailQueue'     => 'UthandoMail\Service\MailQueue',
         ],
     ],
+    'view_helpers' => [
+        'invokables' => [
+            'UthandoMailAddress'    => 'UthandoMail\View\Helper\MailAddress',
+        ],
+    ],
     'view_manager' => [
          'template_map' => include __DIR__  .'/../template_map.php',
     ],

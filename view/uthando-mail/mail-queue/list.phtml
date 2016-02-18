@@ -1,16 +1,15 @@
-<?php $this->headTitle('Mail Queue') ?>
 
 <?php if (count($this->models) > 0): ?>
-    <div class="panel panel-default">
-        <table id="mailQueue-list" class="table table-hover table-bordered table-condensed sortable-table">
+    <div class="table-responsive">
+        <table id="mail-queue-list" class="table table-hover table-bordered table-condensed sortable-table">
             <thead>
             <tr>
-                <th data-field="mailQueueId">Mail Queue Id</th>
-                <th data-field="recipient">To</th>
-                <th data-field="sender">From</th>
-                <th data-field="subject">Subject</th>
-                <th data-field="dateCreated">Date Created</th>
-                <th>Actions</th>
+                <th data-field="mailQueueId"><?=$this->translate('Mail Queue Id');?></th>
+                <th data-field="recipient"><?=$this->translate('Recipient');?></th>
+                <th data-field="sender"><?=$this->translate('Sender');?></th>
+                <th data-field="subject"><?=$this->translate('Subject');?></th>
+                <th data-field="dateCreated"><?=$this->translate('Date Created');?></th>
+                <th><?=$this->translate('Actions');?></th>
             </tr>
             </thead>
 
@@ -19,15 +18,15 @@
             <?php foreach ($this->models as $row): ?>
                 <tr>
                     <td><?= $this->escapeHtml($row->getMailQueueId()); ?></td>
-                    <td><?= $this->escapeHtml($row->getRecipient()); ?></td>
-                    <td><?= $this->escapeHtml($row->getSender()); ?></td>
+                    <td><?= $this->escapeHtml($this->uthandoMailAddress($row, 'recipient')); ?></td>
+                    <td><?= $this->escapeHtml($this->uthandoMailAddress($row, 'sender')); ?></td>
                     <td><?= $this->escapeHtml($row->getSubject()); ?></td>
                     <td><?= $this->escapeHtml($this->formatDate($row->getDateCreated())); ?></td>
                     <td>
                         <?= $this->partial('uthando-admin/partial/edit-actions', [
                             'pk' => 'mailQueueuId',
                             'id' => $row->getMailQueueId(),
-                            'tableName' => 'mailQueue',
+                            'tableName' => 'mail-queue',
                             'route' => 'admin/mail-queue/edit',
                             'edit' => false,
                         ]); ?>
@@ -46,5 +45,5 @@
     ); ?>
 
 <?php else: ?>
-    <h4>No emails are in the queue</h4>
+    <h4><?=$this->translate('No emails are in the queue');?></h4>
 <?php endif; ?>
