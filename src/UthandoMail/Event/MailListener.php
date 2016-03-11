@@ -96,7 +96,6 @@ class MailListener implements ListenerAggregateInterface
             ->setSubject($subject);
 
         $sendMail->send($message, $transport);
-
     }
 
     /**

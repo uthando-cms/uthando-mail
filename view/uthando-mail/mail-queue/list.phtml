@@ -24,7 +24,7 @@
                     <td><?= $this->escapeHtml($this->formatDate($row->getDateCreated())); ?></td>
                     <td>
                         <?= $this->partial('uthando-admin/partial/edit-actions', [
-                            'pk' => 'mailQueueuId',
+                            'pk' => 'mailQueueId',
                             'id' => $row->getMailQueueId(),
                             'tableName' => 'mail-queue',
                             'route' => 'admin/mail-queue/edit',
