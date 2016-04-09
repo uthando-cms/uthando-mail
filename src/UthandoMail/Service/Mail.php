@@ -282,11 +282,12 @@ class Mail
         $xml->loadHTML($stringOrView);
         
         $images = $xml->getElementsByTagName('img');
+        $attachments = [];
 
         /* @var DomElement $image */
         foreach ($images as $image) {
             $file = $image->getAttribute('src');
-            
+
             $binary = file_get_contents($file);
             $mime = $this->mimeByExtension($file);
 
@@ -299,11 +300,13 @@ class Mail
 
             $attachment->setFileName($fileName);
             $attachment->setId('cid_' . md5($fileName));
-            
+
             $stringOrView = str_replace($file, 'cid:' . $attachment->getId(), $stringOrView);
 
-            $this->attachments[] = $attachment;
+            $attachments[] = $attachment;
         }
+
+        $this->attachments = $attachments;
         
         return $stringOrView;
     }
