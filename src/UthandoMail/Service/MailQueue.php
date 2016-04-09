@@ -31,6 +31,11 @@ class MailQueue extends AbstractMapperService
     protected $options;
 
     /**
+     * @var array
+     */
+    protected $failedMessages;
+
+    /**
      * @return int
      */
     public function processQueue()
@@ -77,13 +82,40 @@ class MailQueue extends AbstractMapperService
                 ->setFrom($from)
                 ->setSubject($row->getSubject());
 
-            $sendMail->send($message, $transport);
+            try {
+                $sendMail->send($message, $transport);
+                $numberSent++;
+            } catch (\Exception $e) {
+                $this->setFailedMessage($to);
+            }
             
             // delete the mail we just sent.
             $this->delete($row->getMailQueueId());
-            $numberSent++;
         }
         
         return $numberSent;
+    }
+
+    /**
+     * @return array
+     */
+    public function getFailedMessages()
+    {
+        return $this->failedMessages;
+    }
+
+    public function setFailedMessage($address)
+    {
+        $this->failedMessages[] = $address;
+    }
+
+    /**
+     * @param array $failedMessages
+     * @return $this
+     */
+    public function setFailedMessages($failedMessages)
+    {
+        $this->failedMessages = $failedMessages;
+        return $this;
     }
 }
