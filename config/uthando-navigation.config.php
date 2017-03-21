@@ -13,7 +13,16 @@ return [
                 ],
                 'action'    => 'index',
                 'route'     => 'admin/mail-queue',
-                'resource'  => 'menu:admin'
+                'resource'  => 'menu:admin',
+                'pages' => [
+                    'list' => [
+                        'label'     => 'Mail Queue List',
+                        'action'    => 'index',
+                        'route'     => 'admin/mail-queue',
+                        'resource'  => 'menu:admin',
+                        'visible'   => false,
+                    ],
+                ]
             ],
         ],
     ],
