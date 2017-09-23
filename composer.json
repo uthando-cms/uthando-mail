@@ -19,7 +19,7 @@
     }
   ],
   "require": {
-    "php": ">=5.5",
+    "php": ">=7.0",
     "zendframework/zend-inputfilter": "2.*",
     "zendframework/zend-console": "2.*",
     "zendframework/zend-mail": "2.*",
