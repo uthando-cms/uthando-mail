@@ -16,7 +16,6 @@ use UthandoMail\Event\MailListener;
 use Zend\Console\Adapter\AdapterInterface as Console;
 use Zend\ModuleManager\Feature\ConsoleUsageProviderInterface;
 use Zend\Mvc\MvcEvent;
-use Zend\Stdlib\ArrayUtils;
 
 /**
  * Class Module
