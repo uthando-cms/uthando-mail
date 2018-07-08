@@ -21,14 +21,16 @@
     </div>
 </div>
 
-<?php $this->inlineScript()->captureStart(); ?>
-$(document).ready(function(){
-	$('#table-mail-queue').dataGrid({
-	    url : 'mail-queue/list',
-	    query: { sort : 'mailQueueId' },
-	    searchForm : $('#search-mail-queue'),
-	    paging : 'links',
-	    columnSort: true,
-	});
-});
-<?php $this->inlineScript()->captureEnd(); ?> 
+<?php $this->placeholder('js-scripts')->captureStart();?>
+<script>
+    $(document).ready(function(){
+        $('#table-mail-queue').dataGrid({
+            url : 'mail-queue/list',
+            query: { sort : 'mailQueueId' },
+            searchForm : $('#search-mail-queue'),
+            paging : 'links',
+            columnSort: true,
+        });
+    });
+</script>
+<?php $this->placeholder('js-scripts')->captureEnd();?>
