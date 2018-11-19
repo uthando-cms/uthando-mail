@@ -20,7 +20,7 @@ use UthandoCommon\Model\ModelInterface;
  *
  * @package UthandoMail\Model
  */
-class MailQueue implements ModelInterface
+class MailQueueModel implements ModelInterface
 {
     use Model;
     use DateCreatedTrait;

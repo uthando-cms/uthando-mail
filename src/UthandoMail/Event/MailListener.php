@@ -10,14 +10,16 @@
 
 namespace UthandoMail\Event;
 
+use UthandoCommon\Service\AbstractService;
 use UthandoCommon\Service\ServiceException;
 use UthandoCommon\Service\ServiceManager;
 use UthandoMail\Service\Mail;
-use UthandoMail\Service\MailQueue;
+use UthandoMail\Service\MailQueueService;
 use Zend\EventManager\Event;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\ListenerAggregateInterface;
 use Zend\EventManager\ListenerAggregateTrait;
+use Zend\Mvc\Controller\AbstractActionController;
 
 /**
  * Class MailListener
@@ -33,15 +35,15 @@ class MailListener implements ListenerAggregateInterface
      */
     public function attach(EventManagerInterface $events)
     {
-        $events = $events->getSharedManager();
+        $sharedEvents = $events->getSharedManager();
 
         $listeners = [
-            'UthandoCommon\Service\AbstractService',
-            'Zend\Mvc\Controller\AbstractActionController',
+            AbstractService::class,
+            AbstractActionController::class,
         ];
 
-        $this->listeners[] = $events->attach($listeners, 'mail.send', [$this, 'sendMail']);
-        $this->listeners[] = $events->attach($listeners, 'mail.queue', [$this, 'queueMail']);
+        $this->listeners[] = $sharedEvents->attach($listeners, 'mail.send', [$this, 'sendMail']);
+        $this->listeners[] = $sharedEvents->attach($listeners, 'mail.queue', [$this, 'queueMail']);
     }
 
     /**
@@ -54,7 +56,7 @@ class MailListener implements ListenerAggregateInterface
         $sl = $e->getTarget()->getServiceLocator();
 
         /* @var $sendMail Mail */
-        $sendMail = $sl->get('UthandoMail\Service\Mail');
+        $sendMail = $sl->get(Mail::class);
 
         if (isset($data['renderer']) && $sl->getServiceLocator()->has($data['renderer'])) {
             $sendMail->setView(
@@ -108,8 +110,8 @@ class MailListener implements ListenerAggregateInterface
         $sl = $e->getTarget()->getServiceLocator();
         $data = $e->getParams();
 
-        /* @var $mailQueue MailQueue */
-        $mailQueue = $sl->get('UthandoMailQueue');
+        /* @var $mailQueue MailQueueService */
+        $mailQueue = $sl->get(MailQueueService::class);
         $hydrator = $mailQueue->getHydrator();
         $model = $mailQueue->getModel();
 

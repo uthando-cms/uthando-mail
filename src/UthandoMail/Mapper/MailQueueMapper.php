@@ -17,7 +17,7 @@ use UthandoCommon\Mapper\AbstractDbMapper;
  *
  * @package UthandoMail\Mapper
  */
-class MailQueue extends AbstractDbMapper
+class MailQueueMapper extends AbstractDbMapper
 {
     protected $table = 'mailQueue';
     protected $primary = 'mailQueueId';

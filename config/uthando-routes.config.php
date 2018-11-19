@@ -1,5 +1,8 @@
 <?php
 
+use UthandoMail\Controller\MailQueueConsoleController;
+use UthandoMail\Controller\MailQueueController;
+
 return [
     'router' => [
         'routes' => [
@@ -11,7 +14,7 @@ return [
                             'route'    => '/mail-queue',
                             'defaults' => [
                                 '__NAMESPACE__' => 'UthandoMail\Controller',
-                                'controller'    => 'MailQueue',
+                                'controller'    => MailQueueController::class,
                                 'action'        => 'index',
                             ],
                         ],
@@ -57,7 +60,7 @@ return [
                         'route' => 'mailqueue send',
                         'defaults' => [
                             '__NAMESPACE__' => 'UthandoMail\Controller',
-                            'controller' => 'MailQueueConsole',
+                            'controller' => MailQueueConsoleController::class,
                             'action' => 'send'
                         ],
                     ],

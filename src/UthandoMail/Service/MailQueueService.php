@@ -11,8 +11,9 @@
 namespace UthandoMail\Service;
 
 use UthandoCommon\Service\AbstractMapperService;
-use UthandoMail\Mapper\MailQueue as MailQueueMapper;
-use UthandoMail\Model\MailQueue as MailQueueModel;
+use UthandoMail\Hydrator\MailQueueHydrator;
+use UthandoMail\Mapper\MailQueueMapper as MailQueueMapper;
+use UthandoMail\Model\MailQueueModel as MailQueueModel;
 use UthandoMail\Options\MailOptions;
 
 /**
@@ -21,9 +22,11 @@ use UthandoMail\Options\MailOptions;
  * @package UthandoMail\Service
  * @method MailQueueMapper getMapper($mapperClass = null, array $options = [])
  */
-class MailQueue extends AbstractMapperService
+class MailQueueService extends AbstractMapperService
 {
-    protected $serviceAlias = 'UthandoMailQueue';
+    protected $hydrator     = MailQueueHydrator::class;
+    protected $mapper       = MailQueueMapper::class;
+    protected $model        = MailQueueModel::class;
     
     /**
      * @var MailOptions
@@ -41,9 +44,9 @@ class MailQueue extends AbstractMapperService
     public function processQueue()
     {
         /* @var $sendMail Mail */
-        $sendMail = $this->getService('UthandoMail\Service\Mail');
+        $sendMail = $this->getService(Mail::class);
         /* @var $options MailOptions */
-        $options = $this->getService('UthandoMail\Options\MailOptions');
+        $options = $this->getService(MailOptions::class);
 
         $numberToSend = $options->getMaxAmountToSend();
         $emailsToSend = $this->getMapper()->getMailsInQueue($numberToSend);

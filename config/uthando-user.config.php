@@ -1,5 +1,7 @@
 <?php
 
+use UthandoMail\Controller\MailQueueController;
+
 return [
     'uthando_user' => [
         'acl' => [
@@ -8,14 +10,14 @@ return [
                     'privileges'    => [
                         'allow' => [
                             'controllers' => [
-                                'UthandoMail\Controller\MailQueue' => ['action' => 'all'],
+                                MailQueueController::class => ['action' => 'all'],
                             ],
                         ],
                     ],
                 ],
             ],
             'resources' => [
-                'UthandoMail\Controller\MailQueue',
+                MailQueueController::class,
             ],
         ],
     ],

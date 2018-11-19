@@ -11,6 +11,7 @@
 namespace UthandoMail\Controller;
 
 use UthandoCommon\Controller\AbstractCrudController;
+use UthandoMail\Service\MailQueueService;
 
 /**
  * Class MailQueueController
@@ -20,7 +21,7 @@ use UthandoCommon\Controller\AbstractCrudController;
 class MailQueueController extends AbstractCrudController
 {
     protected $controllerSearchOverrides = ['sort' => 'mailQueueId'];
-    protected $serviceName = 'UthandoMailQueue';
+    protected $serviceName = MailQueueService::class;
     protected $route = 'admin/mail-queue';
 
     /**

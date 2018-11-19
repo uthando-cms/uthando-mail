@@ -1,50 +1,38 @@
 <?php
+
+use UthandoMail\Controller\MailQueueConsoleController;
+use UthandoMail\Controller\MailQueueController;
+use UthandoMail\Options\MailOptions;
+use UthandoMail\Service\Factory\MailFactory;
+use UthandoMail\Service\Factory\MailOptionsFactory;
+use UthandoMail\Service\Mail;
+use UthandoMail\Service\MailQueueService;
+use UthandoMail\View\Helper\MailAddress;
+
 return [
     'controllers' => [
         'invokables' => [
-            'UthandoMail\Controller\MailQueue'          => 'UthandoMail\Controller\MailQueueController',
-            'UthandoMail\Controller\MailQueueConsole'   => 'UthandoMail\Controller\MailQueueConsoleController',
-        ],
-    ],
-    'form_elements' => [
-        'invokables' => [
-            'UthandoMailTransportList' => 'UthandoMail\Form\Element\MailTransportList',
-        ],
-    ],
-    'hydrators' => [
-        'invokables' => [
-            'UthandoMailQueue' => 'UthandoMail\Hydrator\MailQueue',
-        ],
-    ],
-    'input_filters' => [
-        'invokables' => [
-            'UthandoMailQueue' => 'UthandoMail\InputFilter\MailQueue',
+            MailQueueController::class          => MailQueueController::class,
+            MailQueueConsoleController::class   => MailQueueConsoleController::class
         ],
     ],
     'service_manager' => [
         'factories' => [
-            'UthandoMail\Service\Mail'          => 'UthandoMail\Service\Factory\MailFactory',
-            'UthandoMail\Options\MailOptions'   => 'UthandoMail\Service\Factory\MailOptionsFactory',
-        ],
-    ],
-    'uthando_mappers' => [
-        'invokables' => [
-            'UthandoMailQueue' => 'UthandoMail\Mapper\MailQueue',
-        ],
-    ],
-    'uthando_models' => [
-        'invokables' => [
-            'UthandoMailQueue' => 'UthandoMail\Model\MailQueue',
+            Mail::class         => MailFactory::class,
+            MailOptions::class  => MailOptionsFactory::class,
         ],
     ],
     'uthando_services' => [
         'invokables' => [
-            'UthandoMailQueue'     => 'UthandoMail\Service\MailQueue',
+            MailQueueService::class => MailQueueService::class
         ],
     ],
     'view_helpers' => [
+        'aliases' => [
+            'UthandoMailAddress' => MailAddress::class,
+        ],
         'invokables' => [
-            'UthandoMailAddress'    => 'UthandoMail\View\Helper\MailAddress',
+            MailAddress::class => MailAddress::class
         ],
     ],
     'view_manager' => [

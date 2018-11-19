@@ -68,7 +68,7 @@ class Mail
 
     /**
      * @param null $layout
-     * @return $this|void
+     * @return $this
      */
     public function setLayout($layout = null)
     {

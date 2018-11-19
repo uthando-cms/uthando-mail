@@ -11,7 +11,7 @@
 namespace UthandoMail\View\Helper;
 
 use UthandoCommon\View\AbstractViewHelper;
-use UthandoMail\Model\MailQueue;
+use UthandoMail\Model\MailQueueModel;
 use UthandoMail\Options\MailOptions;
 use Zend\Mail\Address;
 use Zend\View\Exception\InvalidArgumentException;
@@ -29,11 +29,11 @@ class MailAddress extends AbstractViewHelper
     protected $mailOptions;
 
     /**
-     * @param MailQueue $row
+     * @param MailQueueModel $row
      * @param string $type
      * @return string
      */
-    public function __invoke(MailQueue $row, $type)
+    public function __invoke(MailQueueModel $row, $type)
     {
         if (!$row->has($type)) {
             throw new InvalidArgumentException('wrong type given in class ' . __CLASS__);

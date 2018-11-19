@@ -34,7 +34,7 @@ class MailTransportList extends Select implements ServiceLocatorAwareInterface
         /* @var $options MailOptions */
         $options = $this->getServiceLocator()
             ->getServiceLocator()
-            ->get('UthandoMail\Options\MailOptions');
+            ->get(MailOptions::class);
 
         $emailAddresses = $options->getAddressList();
 

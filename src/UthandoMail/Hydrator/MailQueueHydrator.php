@@ -19,7 +19,7 @@ use UthandoCommon\Hydrator\Strategy\Serialize;
  *
  * @package UthandoMail\Hydrator
  */
-class MailQueue extends AbstractHydrator
+class MailQueueHydrator extends AbstractHydrator
 {
     /**
      * Constructor
@@ -39,7 +39,7 @@ class MailQueue extends AbstractHydrator
     }
 
     /**
-     * @param \UthandoMail\Model\MailQueue $object
+     * @param \UthandoMail\Model\MailQueueModel $object
      * @return array
      */
     public function extract($object)

@@ -10,6 +10,8 @@
 
 namespace UthandoMail\Controller;
 
+use UthandoCommon\Service\ServiceManager;
+use UthandoMail\Service\MailQueueService;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Console\Request as ConsoleRequest;
 
@@ -31,9 +33,9 @@ class MailQueueConsoleController extends AbstractActionController
             throw new \RuntimeException('You can only use this action from a console!');
         }
 
-        $sl = $this->getServiceLocator()->get('UthandoServiceManager');
+        $sl = $this->getServiceLocator()->get(ServiceManager::class);
 
-        $mailQueueService = $sl->get('UthandoMailQueue');
+        $mailQueueService = $sl->get(MailQueueService::class);
 
         $mailsSent = $mailQueueService->processQueue();
 

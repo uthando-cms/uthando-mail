@@ -34,7 +34,7 @@ class Module implements ConsoleUsageProviderInterface, ConfigInterface
         $app = $event->getApplication();
         $eventManager = $app->getEventManager();
 
-        $eventManager->attachAggregate(new MailListener());
+        $eventManager->attach(new MailListener());
     }
 
     /**
@@ -62,8 +62,10 @@ class Module implements ConsoleUsageProviderInterface, ConfigInterface
     public function getAutoloaderConfig()
     {
         return [
-            'Zend\Loader\ClassMapAutoloader' => [
-                __DIR__ . '/autoload_classmap.php',
+            'Zend\Loader\StandardAutoloader' => [
+                'namespaces' => [
+                    __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
+                ],
             ],
         ];
     }
