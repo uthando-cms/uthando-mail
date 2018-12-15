@@ -23,13 +23,12 @@ return [
                             'edit' => [
                                 'type'    => 'Segment',
                                 'options' => [
-                                    'route'    => '/[:action[/id/[:id]]]',
+                                    'route'    => '/[:action]',
                                     'constraints' => [
                                         'action'    => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                        'id'		=> '\d+'
                                     ],
                                     'defaults' => [
-                                        'action'        => 'edit',
+                                        'action'        => 'delete',
                                     ],
                                 ],
                             ],

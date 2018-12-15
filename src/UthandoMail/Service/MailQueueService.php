@@ -15,6 +15,7 @@ use UthandoMail\Hydrator\MailQueueHydrator;
 use UthandoMail\Mapper\MailQueueMapper as MailQueueMapper;
 use UthandoMail\Model\MailQueueModel as MailQueueModel;
 use UthandoMail\Options\MailOptions;
+use Zend\Db\Sql\Where;
 
 /**
  * Class MailQueue
@@ -97,6 +98,24 @@ class MailQueueService extends AbstractMapperService
         }
         
         return $numberSent;
+    }
+
+    public function delete($ids)
+    {
+        if (!empty($ids)) {
+            $where = new Where();
+            $where->in('mailQueueId', $ids);
+        } else {
+            $where = [];
+        }
+
+        $result = $this->getMapper()->delete($where);
+
+        if ($result) {
+            $this->clearCacheTags();
+        }
+
+        return $result;
     }
 
     /**

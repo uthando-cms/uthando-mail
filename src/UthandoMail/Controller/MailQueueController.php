@@ -12,6 +12,7 @@ namespace UthandoMail\Controller;
 
 use UthandoCommon\Controller\AbstractCrudController;
 use UthandoMail\Service\MailQueueService;
+use Zend\Http\PhpEnvironment\Response;
 
 /**
  * Class MailQueueController
@@ -38,5 +39,22 @@ class MailQueueController extends AbstractCrudController
     public function editAction()
     {
         return $this->redirect()->toRoute($this->route);
+    }
+
+    public function deleteAction()
+    {
+        $request = $this->getRequest();
+        $del     = $request->getPost('submit', 'No');
+        $ids     = $request->getPost('ids', []);
+
+        if ($request->isPost() && $del == 'delete') {
+
+            $result = $this->getService()->delete($ids);
+
+            $this->flashMessenger()->addSuccessMessage(sprintf('%s rows were deleted form database.', $result));
+
+        }
+
+        return $this->redirect()->toRoute($this->getRoute('delete'), $this->params()->fromRoute());
     }
 }

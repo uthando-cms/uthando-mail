@@ -2,6 +2,15 @@
 <?php $this->headTitle('Mail Queue') ?>
 <?php $this->layout()->pageTitle = $this->translate('Mail Queue');?>
 
+<?php if (count($this->models) > 0): ?>
+<?php $this->placeholder('header-buttons')->captureStart();?>
+<a href="#delete-mail-dialog" class="btn btn-danger btn-tooltip delete-button" title="<?=$this->translate('Delete');?>" data-toggle="modal" data-target="#delete-mail-dialog">
+    <i class="fa fa-trash"></i>
+</a>
+<?php endif; ?>
+
+<?php $this->placeholder('header-buttons')->captureEnd();?>
+
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title"><i class="fa fa-list"></i> <?=$this->translate('Mail Queue List');?></h3>

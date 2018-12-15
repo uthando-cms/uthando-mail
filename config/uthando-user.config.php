@@ -8,6 +8,9 @@ return [
             'roles' => [
                 'admin'        => [
                     'privileges'    => [
+                        'disallow' => [
+                            MailQueueController::class => ['action' => ['add', 'edit']],
+                        ],
                         'allow' => [
                             'controllers' => [
                                 MailQueueController::class => ['action' => 'all'],
